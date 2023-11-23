@@ -1,5 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
+import Home from "../pages/Home/Home";
+import PageNotFound from "../pages/ErrorPage/PageNotFound";
 
 const PublicRoutes = createBrowserRouter([
   {
@@ -8,9 +10,13 @@ const PublicRoutes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <h1>Hello Worlds</h1>,
+        element: <Home />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <PageNotFound />,
   },
 ]);
 

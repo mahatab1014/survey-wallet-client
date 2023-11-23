@@ -10,8 +10,6 @@ const MainLayout = () => {
       </header>
       <main>
         <Outlet />
-        <div className="py-96"></div>
-        <div className="py-96"></div>
       </main>
       <footer>
         <Footer />
