@@ -1,0 +1,122 @@
+[
+  {
+    "title": "Technology Usage Survey",
+    "cover": "https://thumbs.dreamstime.com/b/survey-concept-shot-survey-written-paper-chit-163484143.jpg",
+    "description": "We want to understand your preferences and habits regarding technology usage.",
+    "options": [
+      { "name": "Smartphone", "vote_count": "123" },
+      { "name": "Laptop", "vote_count": "456" },
+      { "name": "Tablet", "vote_count": "789" },
+      { "name": "Smartwatch", "vote_count": "321" }
+    ],
+    "category": "Technology",
+    "featured": "false",
+    "timestamp": "2023-11-23T12:00:00Z",
+    "create_date": "2023-11-23T12:00:00Z"
+  },
+  {
+    "title": "Health and Fitness Habits",
+    "description": "Share information about your health and fitness routines for a healthier lifestyle.",
+    "options": [
+      { "name": "Exercise", "vote_count": "234" },
+      { "name": "Healthy Eating", "vote_count": "567" },
+      { "name": "Mental Well-being", "vote_count": "890" },
+      { "name": "Sleep Habits", "vote_count": "432" }
+    ],
+    "cover": "https://thumbs.dreamstime.com/b/survey-concept-shot-survey-written-paper-chit-163484143.jpg",
+    "category": "Health and Wellness",
+    "featured": "true",
+    "timestamp": "2023-11-24T15:30:00Z",
+    "create_date": "2023-11-24T15:30:00Z"
+  },
+  {
+    "title": "Entertainment Preferences",
+    "description": "Tell us about your favorite movies, music, and TV shows.",
+    "cover": "https://thumbs.dreamstime.com/b/survey-concept-shot-survey-written-paper-chit-163484143.jpg",
+    "options": [
+      { "name": "Movies", "vote_count": "345" },
+      { "name": "Music", "vote_count": "678" },
+      { "name": "TV Shows", "vote_count": "901" },
+      { "name": "Gaming", "vote_count": "543" }
+    ],
+    "category": "Entertainment",
+    "featured": "true",
+    "timestamp": "2023-11-25T18:45:00Z",
+    "create_date": "2023-11-25T18:45:00Z"
+  },
+  {
+    "title": "Travel Destinations Wishlist",
+    "description": "Share your dream travel destinations and experiences.",
+    "cover": "https://thumbs.dreamstime.com/b/survey-concept-shot-survey-written-paper-chit-163484143.jpg",
+    "options": [
+      { "name": "Beach", "vote_count": "876" },
+      { "name": "Mountains", "vote_count": "543" },
+      { "name": "City", "vote_count": "210" },
+      { "name": "Adventure", "vote_count": "789" }
+    ],
+    "category": "Travel",
+    "featured": "true",
+    "timestamp": "2023-11-26T09:15:00Z",
+    "create_date": "2023-11-26T09:15:00Z"
+  },
+  {
+    "title": "Workplace Satisfaction Survey",
+    "description": "Let us know how satisfied you are with your current workplace and environment.",
+    "cover": "https://thumbs.dreamstime.com/b/survey-concept-shot-survey-written-paper-chit-163484143.jpg",
+    "options": [
+      { "name": "Job Satisfaction", "vote_count": "678" },
+      { "name": "Team Collaboration", "vote_count": "901" },
+      { "name": "Work-Life Balance", "vote_count": "543" },
+      { "name": "Career Growth", "vote_count": "210" }
+    ],
+    "category": "Workplace",
+    "featured": "true",
+    "timestamp": "2023-11-27T14:00:00Z",
+    "create_date": "2023-11-27T14:00:00Z"
+  },
+  {
+    "title": "Favorite Sports Poll",
+    "cover": "https://thumbs.dreamstime.com/b/survey-concept-shot-survey-written-paper-chit-163484143.jpg",
+    "description": "Share your favorite sports and sporting events.",
+    "options": [
+      { "name": "Football", "vote_count": "321" },
+      { "name": "Basketball", "vote_count": "654" },
+      { "name": "Tennis", "vote_count": "987" },
+      { "name": "Golf", "vote_count": "543" }
+    ],
+    "category": "Sports",
+    "featured": "true",
+    "timestamp": "2023-11-28T11:30:00Z",
+    "create_date": "2023-11-28T11:30:00Z"
+  },
+  {
+    "title": "Food and Dining Habits",
+    "cover": "https://thumbs.dreamstime.com/b/survey-concept-shot-survey-written-paper-chit-163484143.jpg",
+    "description": "Tell us about your food preferences and dining habits.",
+    "options": [
+      { "name": "Vegetarian", "vote_count": "432" },
+      { "name": "Vegan", "vote_count": "765" },
+      { "name": "Carnivore", "vote_count": "098" },
+      { "name": "Pescatarian", "vote_count": "543" }
+    ],
+    "category": "Food and Dining",
+    "featured": "false",
+    "timestamp": "2023-11-29T08:45:00Z",
+    "create_date": "2023-11-29T08:45:00Z"
+  },
+  {
+    "title": "Social Media Usage Survey",
+    "cover": "https://thumbs.dreamstime.com/b/survey-concept-shot-survey-written-paper-chit-163484143.jpg",
+    "description": "Share how you use social media and your preferred platforms.",
+    "options": [
+      { "name": "Facebook", "vote_count": "987" },
+      { "name": "Instagram", "vote_count": "654" },
+      { "name": "Twitter", "vote_count": "321" },
+      { "name": "LinkedIn", "vote_count": "210" }
+    ],
+    "category": "Social Media",
+    "featured": "false",
+    "timestamp": "2023-11-30T16:30:00Z",
+    "create_date": "2021-11-30T16:30:00Z"
+  }
+]

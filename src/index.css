@@ -3,6 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.primary-button{
+    @apply btn bg-orange-color hover:bg-orange-500 border-none rounded-none;
+}
 ::-webkit-scrollbar{
     width: 0;
 }
