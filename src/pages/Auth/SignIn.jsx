@@ -2,8 +2,21 @@ import { FaGoogle } from "react-icons/fa6";
 import Container from "../../components/Container/Container";
 import LightLogo from "../../assets/images/logo/logo_light.png";
 import { Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import ContineWithSocialAccount from "./ContineWithSocialAccount";
 
 const SignIn = () => {
+  const { signInWithEmail } = useAuth();
+
+  const handleSignIn = async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    signInWithEmail(email, password);
+  };
+
   return (
     <section>
       <Container>
@@ -26,15 +39,7 @@ const SignIn = () => {
                 Welcome back!
               </p>
 
-              <button className="w-full flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <div className="px-4 py-2">
-                  <FaGoogle />
-                </div>
-
-                <span className="w-5/6 px-4 py-3 font-bold text-center">
-                  Sign in with Google
-                </span>
-              </button>
+              <ContineWithSocialAccount />
               <div className="flex items-center justify-between mt-4">
                 <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
 
@@ -44,7 +49,7 @@ const SignIn = () => {
 
                 <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
               </div>
-              <form>
+              <form onSubmit={handleSignIn}>
                 <div className="mt-4">
                   <label
                     className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200"
@@ -56,6 +61,8 @@ const SignIn = () => {
                     id="LoggingEmailAddress"
                     className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
                     type="email"
+                    name="email"
+                    required
                   />
                 </div>
 
@@ -67,18 +74,17 @@ const SignIn = () => {
                     >
                       Password
                     </label>
-                    <a
-                      href="#"
-                      className="text-xs text-gray-500 dark:text-gray-300 hover:underline"
-                    >
+                    <span className="text-xs text-gray-500 dark:text-gray-300 hover:underline">
                       Forget Password?
-                    </a>
+                    </span>
                   </div>
 
                   <input
                     id="loggingPassword"
                     className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
                     type="password"
+                    name="password"
+                    required
                   />
                 </div>
 
