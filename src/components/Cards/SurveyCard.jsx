@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import useAuth from "../../hooks/useAuth";
+
 import "./SurveyCard.css";
 import { FaComment, FaShare, FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
 import { Link } from "react-router-dom";
@@ -28,25 +29,25 @@ const SurveyCard = ({ card, surveyTotalVote, badge }) => {
           >
             <div className="">
               <span className="text-xs">{card?.likes} Likes</span>
-              <span className="btn btn-sm">
+              <Link to={`/survey/${card?._id}#comment`} className="btn btn-sm">
                 <FaThumbsUp />
                 Like
-              </span>
+              </Link>
             </div>
             <div className="!hidden sm:!flex md:!hidden xl:!flex">
               <span className="text-xs">{card?.dis_likes} Dislikes</span>
-              <span className="btn btn-sm">
+              <Link to={`/survey/${card?._id}#comment`} className="btn btn-sm">
                 <FaThumbsDown />
                 Dislike
-              </span>
+              </Link>
             </div>
 
             <div>
-              <span className="text-xs">{card?.comment} Comments</span>
-              <span className="btn btn-sm">
+              {/* <span className="text-xs">Comments</span> */}
+              <Link to={`/survey/${card?._id}#comment`} className="btn btn-sm">
                 <FaComment />
                 Comments
-              </span>
+              </Link>
             </div>
             <div>
               {/* <span>0 </span> */}

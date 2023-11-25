@@ -1,0 +1,6 @@
+#comments-data:hover > .divider::before {
+  @apply bg-gray-600;
+}
+#comments-data:hover > .divider::after {
+  @apply bg-orange-color;
+}

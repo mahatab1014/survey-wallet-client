@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Container from "../../components/Container/Container";
 import PrimaryHeading from "../../components/Heading/PrimaryHeading";
@@ -17,6 +17,8 @@ import useAuth from "../../hooks/useAuth";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import useSingleData from "../../hooks/useSingleData";
 import { toast } from "react-hot-toast";
+import useComments from "../../hooks/useComments";
+import CommentCard from "../../components/Cards/CommentCard";
 
 const SurveysDetails = () => {
   const { id } = useParams();
@@ -24,7 +26,8 @@ const SurveysDetails = () => {
   const axiosSecure = useAxiosSecure();
 
   const [singleSurveyData, refetch] = useSingleData(id);
-  const { likes, dis_likes, comments } = singleSurveyData;
+  const [commentsData, commentsRefetch] = useComments(id);
+  const { likes, dis_likes } = singleSurveyData;
 
   const [participate, setParticipate] = useState({});
   const [userSurveyLiked, setUserSurveyLiked] = useState({});
@@ -49,7 +52,14 @@ const SurveysDetails = () => {
 
     axiosSecure.post(`/survey/${id}`, postData).then((response) => {
       console.log(response.data);
-      refetch();
+      if (response.data.message === "Survey updated successfully.") {
+        const callFunction = refetch();
+        toast.promise(callFunction, {
+          loading: "Vote posting...",
+          success: <b>Vote posted!</b>,
+          error: <b>Something went wrong.</b>,
+        });
+      }
     });
   };
 
@@ -70,7 +80,14 @@ const SurveysDetails = () => {
         .post(`/survey-likes-comments/${singleSurveyData?._id}`, postData)
         .then((res) => {
           console.log(res.data);
-          refetch();
+          if (res.data.message === "Survey updated successfully.") {
+            const callFunction = refetch();
+            toast.promise(callFunction, {
+              loading: "Loading...",
+              success: <b>❤️ Liked!</b>,
+              error: <b>Something went wrong.</b>,
+            });
+          }
         });
     } else {
       toast.success("You already liked it");
@@ -93,11 +110,45 @@ const SurveysDetails = () => {
         .post(`/survey-likes-comments/${singleSurveyData?._id}`, postData)
         .then((res) => {
           console.log(res.data);
-          refetch();
+          if (res.data.message === "Survey updated successfully.") {
+            const callFunction = refetch();
+            toast.promise(callFunction, {
+              loading: "Loading...",
+              success: <b>👎 Disliked!</b>,
+              error: <b>Something went wrong.</b>,
+            });
+          }
         });
     } else {
       toast.success("You already disliked it");
     }
+  };
+  const handlePostComments = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const comments = form.comment.value;
+    const postData = {
+      survey_id: id,
+      comments: comments,
+      user: {
+        name: user?.displayName,
+        user_avatar: user?.photoURL,
+        user_email: user?.email,
+        user_uid: user?.uid,
+      },
+    };
+
+    axiosSecure.post("/survey-comments", postData).then((res) => {
+      if (res.data.insertedId.length > 0) {
+        const callFunction = commentsRefetch();
+
+        toast.promise(callFunction, {
+          loading: "Comment posting...",
+          success: <b>Comment posted!</b>,
+          error: <b>Could not posted.</b>,
+        });
+      }
+    });
   };
 
   useEffect(() => {
@@ -119,8 +170,6 @@ const SurveysDetails = () => {
         });
     }
   }, [axiosSecure, id, user, singleSurveyData]);
-
-  console.log(userSurveyLiked);
 
   return (
     <section>
@@ -249,12 +298,12 @@ const SurveysDetails = () => {
 
                   <div>
                     <span className="text-xs">
-                      {!comments ? 0 : comments} Comments
+                      {commentsData.length} Comments
                     </span>
-                    <span className="btn btn-sm">
+                    <Link to="#comments" className="btn btn-sm">
                       <FaComment />
                       Comments
-                    </span>
+                    </Link>
                   </div>
                   <div>
                     {/* <span>0 </span> */}
@@ -264,6 +313,29 @@ const SurveysDetails = () => {
                     </span>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div className="card-body p-0 py-10" id="comments">
+              <div className="w-[100%] lg:w-[50%] m-auto">
+                <form onSubmit={handlePostComments}>
+                  <div className="form-control ">
+                    <label htmlFor="comment">Let's comment here :</label>
+                    <textarea
+                      className="shadow-lg p-4 outline-none mb-2"
+                      name="comment"
+                      id="comment"
+                      required
+                    ></textarea>
+                    <button className="primary-button">Comments</button>
+                  </div>
+                </form>
+              </div>
+
+              <div className="w-[100%] lg:w-[50%] mx-auto mt-20 space-y-3">
+                {commentsData?.map((data) => (
+                  <CommentCard key={data._id} data={data} />
+                ))}
               </div>
             </div>
           </div>
