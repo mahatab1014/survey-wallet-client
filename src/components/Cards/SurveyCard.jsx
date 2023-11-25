@@ -3,7 +3,7 @@
 import useAuth from "../../hooks/useAuth";
 import "./SurveyCard.css";
 import { FaComment, FaShare, FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const SurveyCard = ({ card, surveyTotalVote, badge }) => {
   const { user } = useAuth();
@@ -27,14 +27,14 @@ const SurveyCard = ({ card, surveyTotalVote, badge }) => {
           text-center mb-2"
           >
             <div className="">
-              <span className="text-xs">0 Likes</span>
+              <span className="text-xs">{card?.likes} Likes</span>
               <span className="btn btn-sm">
                 <FaThumbsUp />
                 Like
               </span>
             </div>
             <div className="!hidden sm:!flex md:!hidden xl:!flex">
-              <span className="text-xs">0 Dislikes</span>
+              <span className="text-xs">{card?.dis_likes} Dislikes</span>
               <span className="btn btn-sm">
                 <FaThumbsDown />
                 Dislike
@@ -42,7 +42,7 @@ const SurveyCard = ({ card, surveyTotalVote, badge }) => {
             </div>
 
             <div>
-              <span className="text-xs">0 Comments</span>
+              <span className="text-xs">{card?.comment} Comments</span>
               <span className="btn btn-sm">
                 <FaComment />
                 Comments

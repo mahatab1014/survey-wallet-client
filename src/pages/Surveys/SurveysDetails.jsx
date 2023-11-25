@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -11,9 +12,11 @@ import {
   FaThumbsDown,
   FaThumbsUp,
 } from "react-icons/fa6";
+
 import useAuth from "../../hooks/useAuth";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import useSingleData from "../../hooks/useSingleData";
+import { toast } from "react-hot-toast";
 
 const SurveysDetails = () => {
   const { id } = useParams();
@@ -21,8 +24,11 @@ const SurveysDetails = () => {
   const axiosSecure = useAxiosSecure();
 
   const [singleSurveyData, refetch] = useSingleData(id);
+  const { likes, dis_likes, comments } = singleSurveyData;
 
   const [participate, setParticipate] = useState({});
+  const [userSurveyLiked, setUserSurveyLiked] = useState({});
+  const [userSurveyDisLiked, setUserSurveyDisLiked] = useState({});
   const [selected, setSelected] = useState();
   const handlePostSurvey = () => {
     const updatedOptions = singleSurveyData.options.map((option) => {
@@ -47,17 +53,74 @@ const SurveysDetails = () => {
     });
   };
 
+  const handleLikes = async () => {
+    const numberLike = parseInt(likes);
+
+    const incressOne = numberLike + 1;
+    const postData = {
+      likes: incressOne,
+      user_liked: {
+        users_name: user?.displayName,
+        email: user?.email,
+        uid: user?.uid,
+      },
+    };
+    if (!userSurveyLiked.liked) {
+      axiosSecure
+        .post(`/survey-likes-comments/${singleSurveyData?._id}`, postData)
+        .then((res) => {
+          console.log(res.data);
+          refetch();
+        });
+    } else {
+      toast.success("You already liked it");
+    }
+  };
+  const handleDislikes = async () => {
+    const numberDislikes = parseInt(dis_likes);
+    const incressOne = numberDislikes + 1;
+    const postData = {
+      dis_likes: incressOne,
+      user_dis_liked: {
+        users_name: user?.displayName,
+        email: user?.email,
+        uid: user?.uid,
+      },
+    };
+
+    if (!userSurveyDisLiked.dis_liked) {
+      axiosSecure
+        .post(`/survey-likes-comments/${singleSurveyData?._id}`, postData)
+        .then((res) => {
+          console.log(res.data);
+          refetch();
+        });
+    } else {
+      toast.success("You already disliked it");
+    }
+  };
+
   useEffect(() => {
     if (user && singleSurveyData && id) {
       axiosSecure
-        .get(`/survey-parti-user?email=${user.email}&id=${id}`)
+        .get(`/survey-parti-user?email=${user?.email}&id=${id}`)
         .then((response) => {
           setParticipate(response.data);
+        });
+      axiosSecure
+        .get(`/survey-liked-user?email=${user?.email}&id=${id}`)
+        .then((response) => {
+          setUserSurveyLiked(response.data);
+        });
+      axiosSecure
+        .get(`/survey-dis-liked-user?email=${user?.email}&id=${id}`)
+        .then((response) => {
+          setUserSurveyDisLiked(response.data);
         });
     }
   }, [axiosSecure, id, user, singleSurveyData]);
 
-  console.log(participate?.vote);
+  console.log(userSurveyLiked);
 
   return (
     <section>
@@ -68,7 +131,7 @@ const SurveysDetails = () => {
             <figure className="h-80">
               <img src={singleSurveyData?.cover} alt="" />
             </figure>
-            <div className="card-body">
+            <div className="card-body p-0 my-10">
               <PrimaryHeading heading_h1={singleSurveyData?.title} />
               <p>{singleSurveyData?.description}</p>
 
@@ -134,7 +197,7 @@ const SurveysDetails = () => {
                           You Already Participate in this survey
                         </p>
                         <p className="uppercase mb-3">
-                          You given vote : {participate?.vote_data?.vote}
+                          Your given vote : {participate?.vote_data?.vote}
                         </p>
                       </>
                     )}
@@ -150,30 +213,44 @@ const SurveysDetails = () => {
               </RadioGroup>
             </div>
 
-            <div className="card-body">
+            <div className="card-body p-0">
               <div className="max-w-lg m-auto">
                 <div
-                  className="flex items-end justify-between lg:[&>div>span]:flex-nowrap
+                  className="flex flex-wrap items-end justify-between lg:[&>div>span]:flex-nowrap
           [&>div]:flex [&>div]:flex-col
-          text-center mb-2 gap-5"
+          text-center mb-2 gap-3"
                 >
                   <div className="">
-                    <span className="text-xs">0 Likes</span>
-                    <span className="btn btn-sm">
+                    <span className="text-xs">{likes} Likes</span>
+                    <button
+                      disabled={userSurveyDisLiked?.dis_liked}
+                      onClick={handleLikes}
+                      className={`btn btn-sm  ${
+                        userSurveyLiked?.liked && "btn-info"
+                      }`}
+                    >
                       <FaThumbsUp />
                       Like
-                    </span>
+                    </button>
                   </div>
-                  <div className="!hidden sm:!flex md:!hidden xl:!flex">
-                    <span className="text-xs">0 Dislikes</span>
-                    <span className="btn btn-sm">
+                  <div className="">
+                    <span className="text-xs">{dis_likes} Dislikes</span>
+                    <button
+                      disabled={userSurveyLiked?.liked}
+                      onClick={handleDislikes}
+                      className={`btn btn-sm  ${
+                        userSurveyDisLiked?.dis_liked && "btn-info"
+                      }`}
+                    >
                       <FaThumbsDown />
                       Dislike
-                    </span>
+                    </button>
                   </div>
 
                   <div>
-                    <span className="text-xs">0 Comments</span>
+                    <span className="text-xs">
+                      {!comments ? 0 : comments} Comments
+                    </span>
                     <span className="btn btn-sm">
                       <FaComment />
                       Comments
