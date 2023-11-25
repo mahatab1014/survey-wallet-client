@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
 import Container from "../../components/Container/Container";
 import SectionBanner from "../../components/SectionBanner/SectionBanner";
 import HeroSlider from "./HeroSlider/HeroSlider";
-import axios from "axios";
+import SurveyCard from "../../components/Cards/SurveyCard";
+import useSurveysData from "../../hooks/useSurveysData";
 
 const Home = () => {
-  const [data, setData] = useState();
-  useEffect(() => {
-    axios("/survey.json").then((response) => setData(response.data));
-  }, []);
+  const [surveyData] = useSurveysData();
 
-  const featuredData = data?.filter((item) => item?.featured === "true");
+  const featuredData = surveyData?.filter((item) => item?.featured === "true");
 
-  const latestData = data?.filter((item) => item?.create_date !== undefined);
+  const latestData = surveyData?.filter(
+    (item) => item?.create_date !== undefined
+  );
   const sortedData = latestData?.sort(
     (a, b) => new Date(b.create_date) - new Date(a.create_date)
   );
@@ -25,36 +24,19 @@ const Home = () => {
       <section>
         <SectionBanner heading="Featured Surveys" />
         <Container>
-          <div className="grid grid-cols-3 py-10 gap-5">
-            {featuredData?.map((data, index) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10 gap-5">
+            {featuredData?.map((data) => {
               const surveyTotalVote = data.options.reduce(
                 (acc, option) => acc + parseInt(option.vote_count),
                 0
               );
               return (
-                <div className="card card-compact shadow-xl" key={index}>
-                  <figure className="relative">
-                    <img src={data.cover} alt="" />
-                    <span className="absolute top-3 right-3 badge">
-                      Featured
-                    </span>
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">{data.title}</h2>
-                    <p>{data.description}</p>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <strong>Total Votes : </strong>
-                        <span>{surveyTotalVote}</span>
-                      </div>
-                      <div>
-                        <button className="primary-button !btn-sm">
-                          View Details
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <SurveyCard
+                  key={data._id}
+                  surveyTotalVote={surveyTotalVote}
+                  card={data}
+                  badge={"Featured"}
+                />
               );
             })}
           </div>
@@ -63,34 +45,18 @@ const Home = () => {
       <section>
         <SectionBanner heading="Latest Surveys" />
         <Container>
-          <div className="grid grid-cols-3 py-10 gap-5">
-            {latestSixSurveys?.map((data, index) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10 gap-5">
+            {latestSixSurveys?.map((data) => {
               const surveyTotalVote = data.options.reduce(
                 (acc, option) => acc + parseInt(option.vote_count),
                 0
               );
               return (
-                <div className="card card-compact shadow-xl" key={index}>
-                  <figure className="relative">
-                    <img src={data.cover} alt="" />
-                    <span className="absolute top-3 right-3 badge">Latest</span>
-                  </figure>
-                  <div className="card-body">
-                    <h2 className="card-title">{data.title}</h2>
-                    <p>{data.description}</p>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <strong>Total Votes : </strong>
-                        <span>{surveyTotalVote}</span>
-                      </div>
-                      <div>
-                        <button className="primary-button !btn-sm">
-                          View Details
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <SurveyCard
+                  key={data._id}
+                  surveyTotalVote={surveyTotalVote}
+                  card={data}
+                />
               );
             })}
           </div>

@@ -1,0 +1,3 @@
+#survey-card:hover figure > img {
+  @apply scale-105;
+}
