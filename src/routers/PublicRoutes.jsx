@@ -8,6 +8,10 @@ import SignUp from "../pages/Auth/SignUp";
 import AuthLayout from "../layouts/AuthLayout";
 import Surveys from "../pages/Surveys/Surveys";
 import BecomeAProUser from "../pages/BecomeAProUser/BecomeAProUser";
+import DashboardLayout from "../layouts/DashboardLayout";
+import DashHome from "../pages/Dashboard/DashHome/DashHome";
+import DashSurveyList from "../pages/Dashboard/DashSurveyList/DashSurveyList";
+import DashSurveyCreate from "../pages/Dashboard/DashSurveyCreate/DashSurveyCreate";
 
 const PublicRoutes = createBrowserRouter([
   {
@@ -47,6 +51,30 @@ const PublicRoutes = createBrowserRouter([
       {
         path: "sign-up",
         element: <SignUp />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      {
+        index: true,
+        element: <DashHome />,
+      },
+      {
+        path: "survey-list",
+        element: <DashSurveyList />,
+      },
+      {
+        path: "survey-create",
+        element: <DashSurveyCreate />,
+      },
+      {
+        path: "users",
+      },
+      {
+        path: "reports",
       },
     ],
   },
