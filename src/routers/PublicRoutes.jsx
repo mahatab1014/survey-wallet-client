@@ -6,6 +6,8 @@ import SurveysDetails from "../pages/Surveys/SurveysDetails";
 import SignIn from "../pages/Auth/SignIn";
 import SignUp from "../pages/Auth/SignUp";
 import AuthLayout from "../layouts/AuthLayout";
+import Surveys from "../pages/Surveys/Surveys";
+import BecomeAProUser from "../pages/BecomeAProUser/BecomeAProUser";
 
 const PublicRoutes = createBrowserRouter([
   {
@@ -17,8 +19,16 @@ const PublicRoutes = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "surveys",
+        element: <Surveys />,
+      },
+      {
         path: "survey/:id",
         element: <SurveysDetails />,
+      },
+      {
+        path: "become-a-pro-user",
+        element: <BecomeAProUser />,
       },
     ],
   },
