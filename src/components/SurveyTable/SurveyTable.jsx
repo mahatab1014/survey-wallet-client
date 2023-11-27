@@ -70,12 +70,11 @@ const SurveyTable = ({
         </button>
       </td>
       <td>
-        <button
-          onClick={() => handleFeatured(survey?._id)}
-          className="btn btn-xs btn-circle btn-ghost text-xl"
-        >
-          <AiOutlineEdit />
-        </button>
+        <Link to={`/dashboard/survey-update/${survey?._id}`}>
+          <button className="btn btn-xs btn-circle btn-ghost text-xl">
+            <AiOutlineEdit />
+          </button>
+        </Link>
       </td>
       <td>
         <button

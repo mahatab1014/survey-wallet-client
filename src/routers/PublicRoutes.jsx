@@ -14,6 +14,8 @@ import DashSurveyList from "../pages/Dashboard/DashSurveyList/DashSurveyList";
 import DashSurveyCreate from "../pages/Dashboard/DashSurveyCreate/DashSurveyCreate";
 import DashUsersList from "../pages/Dashboard/DashUsersList/DashUsersList";
 import DashReportList from "../pages/Dashboard/DashReportList/DashReportList";
+import DashPaymentTransactions from "../pages/Dashboard/DashPaymentTransactions/DashPaymentTransactions";
+import DashUpdateSurvey from "../pages/Dashboard/DashUpdateSurvey/DashUpdateSurvey";
 
 const PublicRoutes = createBrowserRouter([
   {
@@ -73,12 +75,20 @@ const PublicRoutes = createBrowserRouter([
         element: <DashSurveyCreate />,
       },
       {
+        path: "survey-update/:id",
+        element: <DashUpdateSurvey />
+      },
+      {
         path: "users",
         element: <DashUsersList />,
       },
       {
         path: "reports",
         element: <DashReportList />,
+      },
+      {
+        path: "payment-transactions",
+        element: <DashPaymentTransactions />,
       },
     ],
   },

@@ -79,6 +79,7 @@ const DashSurveyCreate = () => {
           featured: "false",
           timestamp: date,
           create_date: currentDate,
+          status: "active",
           user_dis_liked: [],
           user_liked: [],
         };

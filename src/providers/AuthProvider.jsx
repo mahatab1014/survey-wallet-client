@@ -38,7 +38,7 @@ const AuthProvider = ({ children }) => {
         last_login_ip: ipAddress?.ip,
       };
       console.log(currentUser);
-      if (currentUser !== null) {
+      if (currentUser !== null && currentUser?.displayName) {
         axiosSecure.put(`/users/${currentUser?.email}`, userData);
       }
       setAuthLoading(false);

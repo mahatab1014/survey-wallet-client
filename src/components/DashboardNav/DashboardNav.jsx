@@ -6,6 +6,8 @@ import {
   FaSquarePollVertical,
   FaUsers,
 } from "react-icons/fa6";
+import { FaHistory } from "react-icons/fa";
+
 import { NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import LogoLight from "../../assets/images/logo/logo_light.png";
@@ -40,6 +42,11 @@ const DashboardNav = () => {
       name: "Reports List",
       path: "/dashboard/reports",
       icon: <MdOutlineReportProblem />,
+    },
+    {
+      name: "Payments Transaction",
+      path: "/dashboard/payment-transactions",
+      icon: <FaHistory />,
     },
   ];
 
