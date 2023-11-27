@@ -1,34 +1,63 @@
 import Container from "../../components/Container/Container";
 import LightLogo from "../../assets/images/logo/logo_light.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { UploadImageImgBB } from "../../utility/utility";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import ContineWithSocialAccount from "./ContineWithSocialAccount";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
   const [selectedImage, setSelectedImage] = useState("");
-
   const { createUserWithEmail, updateUserProfile } = useAuth();
+  const [confirmPass, setConfirmPass] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
+    setErrorMessage("");
     const form = e.target;
     const name = form.name.value;
     const photo = form.photo.files[0];
     const email = form.email.value;
     const password = form.password.value;
-    const confirmPassword = form.confirmPassword.value;
+    const passwordConfimation = password === confirmPass;
+    if (!passwordConfimation) {
+      return setErrorMessage("Password doesn't match");
+    }
+    if (!/^(.{6,})$/.test(password)) {
+      return setErrorMessage("Password must be at least 6 characters");
+    }
+    if (!/[A-Z]/.test(password)) {
+      return setErrorMessage(
+        "Password must contain at least one capital letter"
+      );
+    }
+    if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(password)) {
+      return setErrorMessage(
+        "Password must contain at least one special character"
+      );
+    }
 
     createUserWithEmail(email, password)
-      .then(async (result) => {
+      .then(async () => {
         const data = await UploadImageImgBB(photo);
-        const profile_picture = data?.data?.url;
+        const profile_picture = data?.data?.display_url;
         updateUserProfile(name, profile_picture);
-        console.log(result);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Sign Up successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          navigate(from, { replace: true });
+        });
       })
-      .catch((error) => console.log(error));
+      .catch((error) => setErrorMessage("Your email is already in use"));
   };
 
   const handleImage = (e) => {
@@ -69,6 +98,12 @@ const SignUp = () => {
 
                 <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
               </div>
+              {errorMessage && (
+                <div className="mt-8 bg-error p-2 text-black">
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
               <form onSubmit={handleSignUp}>
                 <div className="mt-4">
                   <label
@@ -159,6 +194,7 @@ const SignUp = () => {
                     className="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
                     type="password"
                     name="confirmPassword"
+                    onChange={(e) => setConfirmPass(e.target.value)}
                     required
                   />
                 </div>

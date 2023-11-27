@@ -1,20 +1,40 @@
-import { FaGoogle } from "react-icons/fa6";
 import Container from "../../components/Container/Container";
 import LightLogo from "../../assets/images/logo/logo_light.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import ContineWithSocialAccount from "./ContineWithSocialAccount";
+import Swal from "sweetalert2";
+import { useState } from "react";
 
 const SignIn = () => {
   const { signInWithEmail } = useAuth();
+  const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  console.log(location);
 
   const handleSignIn = async (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-
-    signInWithEmail(email, password);
+    setErrorMessage("");
+    signInWithEmail(email, password)
+      .then(() => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Sign In successfully done",
+          showConfirmButton: false,
+          timer: 1500,
+        }).then(() => {
+          navigate(from, { replace: true });
+        });
+      })
+      .catch((error) => {
+        setErrorMessage("Email or Password is incorrect!");
+      });
   };
 
   return (
@@ -49,6 +69,13 @@ const SignIn = () => {
 
                 <span className="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
               </div>
+
+              {errorMessage && (
+                <div className="mt-8 bg-error p-2 text-black">
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
               <form onSubmit={handleSignIn}>
                 <div className="mt-4">
                   <label
@@ -99,6 +126,7 @@ const SignIn = () => {
                 <Link
                   to="/auth/sign-up"
                   className="hover:underline text-blue-600"
+                  state={{ from: from }}
                 >
                   {" "}
                   Sign Up

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import Container from "../../components/Container/Container";
 import PrimaryHeading from "../../components/Heading/PrimaryHeading";
@@ -12,6 +12,7 @@ import {
   FaThumbsDown,
   FaThumbsUp,
 } from "react-icons/fa6";
+import { MdReport } from "react-icons/md";
 
 import useAuth from "../../hooks/useAuth";
 import PageTitle from "../../components/PageTitle/PageTitle";
@@ -19,6 +20,7 @@ import useSingleData from "../../hooks/useSingleData";
 import { toast } from "react-hot-toast";
 import useComments from "../../hooks/useComments";
 import CommentCard from "../../components/Cards/CommentCard";
+import useSingleUserData from "../../hooks/useSingleUserData";
 
 const SurveysDetails = () => {
   const { id } = useParams();
@@ -27,12 +29,17 @@ const SurveysDetails = () => {
 
   const [singleSurveyData, refetch] = useSingleData(id);
   const [commentsData, commentsRefetch] = useComments(id);
+  const [singleUserData, singleUserDataRefetch] = useSingleUserData(
+    user?.email
+  );
+
   const { likes, dis_likes } = singleSurveyData;
 
   const [participate, setParticipate] = useState({});
   const [userSurveyLiked, setUserSurveyLiked] = useState({});
   const [userSurveyDisLiked, setUserSurveyDisLiked] = useState({});
   const [selected, setSelected] = useState();
+  const [surveyReported, setSurveyReported] = useState();
   const handlePostSurvey = () => {
     const updatedOptions = singleSurveyData.options.map((option) => {
       if (option.name === "yes" && selected === "yes") {
@@ -147,7 +154,28 @@ const SurveysDetails = () => {
           success: <b>Comment posted!</b>,
           error: <b>Could not posted.</b>,
         });
+        form.reset();
       }
+    });
+  };
+
+  const handleReport = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const reason = e.target._reason.value;
+    const postData = {
+      reason: reason,
+      user_reported: {
+        email: user?.email,
+        uid: user?.uid,
+      },
+      survey_id: singleSurveyData._id,
+      survey_title: singleSurveyData.title,
+      survey_posted_user: singleSurveyData.user,
+    };
+    axiosSecure.post("/report-survey", postData).then((res) => {
+      toast.success("Reported");
+      form.reset();
     });
   };
 
@@ -168,8 +196,16 @@ const SurveysDetails = () => {
         .then((response) => {
           setUserSurveyDisLiked(response.data);
         });
+      axiosSecure
+        .get(`/single-report-survey?email=${user?.email}&id=${id}`)
+        .then((response) => {
+          setSurveyReported(response.data);
+        });
     }
   }, [axiosSecure, id, user, singleSurveyData]);
+
+
+  const location = useLocation()
 
   return (
     <section>
@@ -312,6 +348,17 @@ const SurveysDetails = () => {
                       Share
                     </span>
                   </div>
+                  <div>
+                    <span
+                      onClick={() =>
+                        document.getElementById("report_modal").showModal()
+                      }
+                      className="btn btn-sm"
+                    >
+                      <MdReport />
+                      Report
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -326,8 +373,18 @@ const SurveysDetails = () => {
                       name="comment"
                       id="comment"
                       required
+                      placeholder={
+                        singleUserData.role !== "pro_user" &&
+                        "Only Pro user can comments here"
+                      }
+                      disabled={singleUserData.role !== "pro_user"}
                     ></textarea>
-                    <button className="primary-button">Comments</button>
+                    <button
+                      className="primary-button"
+                      disabled={singleUserData.role !== "pro_user"}
+                    >
+                      Comments
+                    </button>
                   </div>
                 </form>
               </div>
@@ -341,6 +398,73 @@ const SurveysDetails = () => {
           </div>
         </div>
       </Container>
+
+      <>
+        <dialog
+          id="report_modal"
+          className="modal modal-bottom sm:modal-middle"
+        >
+          <div className="modal-box">
+            {surveyReported?.survey_id === singleSurveyData?._id ? (
+              <>
+                <h3 className="font-bold text-lg">
+                  You already reported this survey
+                </h3>
+                <p>Wait for admin approval</p>
+              </>
+            ) : (
+              <>
+                {user ? (
+                  <>
+                    <h3 className="font-bold text-lg">
+                      Write in details why you report in this survey.
+                    </h3>
+                    <form className="mt-2" onSubmit={handleReport}>
+                      <input
+                        className="search-form-field w-full"
+                        type="text"
+                        name="_reason"
+                        id=""
+                        required
+                      />
+                      <div className="mt-4">
+                        <button
+                          type="submit"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        >
+                          Report Now
+                        </button>
+                      </div>
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="font-bold text-lg">
+                      Only valid or Logged in user can report survey
+                    </h3>
+                    <div className="mt-4">
+                      <Link to="/auth" state={{from: location}}>
+                        <button
+                          type="submit"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        >
+                          Login now
+                        </button>
+                      </Link>
+                    </div>
+                  </>
+                )}
+              </>
+            )}
+
+            <div className="modal-action">
+              <form method="dialog">
+                <button className="btn">Close</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+      </>
     </section>
   );
 };
