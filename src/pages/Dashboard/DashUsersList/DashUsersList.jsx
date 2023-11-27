@@ -3,11 +3,14 @@ import PageTitle from "../../../components/PageTitle/PageTitle";
 import UsersTable from "../../../components/UsersTable/UsersTable";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useUsersData from "../../../hooks/useUsersData";
+import { FaFilter } from "react-icons/fa6";
+import { useState } from "react";
 
 const DashUsersList = () => {
-  const [usersData, usersRefetch] = useUsersData();
+  const [role, setRole]=useState("")
+  const [usersData, usersRefetch] = useUsersData(role);
 
-  const axiosSecure = useAxiosSecure()
+  const axiosSecure = useAxiosSecure();
 
   const handleUserRole = (e, id) => {
     e.preventDefault();
@@ -23,6 +26,18 @@ const DashUsersList = () => {
       });
     });
   };
+  const role_data = [
+    { id: 1, name: "user", unavailable: false },
+    { id: 2, name: "admin", unavailable: false },
+    { id: 3, name: "pro_user", unavailable: false },
+    { id: 4, name: "surveyor", unavailable: false },
+  ];
+
+  const handleFilterByRole = async (e) => {
+    e.preventDefault();
+    const role = e.target.user_role.value;
+    setRole(role)
+  };
 
   return (
     <>
@@ -37,8 +52,33 @@ const DashUsersList = () => {
       </div>
       <section>
         <div className="overflow-x-auto">
-          <table className="table table-xs">
-            <thead>
+          <div className="max-w-sm mx-auto">
+            <form className="text-center" onSubmit={handleFilterByRole}>
+              <p className="mb-2">Filter By User Role</p>
+              <select name="user_role" className="search-form-field w-full">
+                {role_data.map((role) => (
+                  <option
+                    key={role?.id}
+                    value={role?.name}
+                    disabled={role?.unavailable}
+                  >
+                    {role?.name}
+                  </option>
+                ))}
+              </select>
+              <div className="text-center">
+                <button
+                  type="submit"
+                  className="primary-button !btn-sm mt-1 !rounded"
+                >
+                  <FaFilter />
+                  Filter
+                </button>
+              </div>
+            </form>
+          </div>
+          <table className="table table-xs mt-3">
+            <thead className="bg-base-300">
               <tr>
                 <th></th>
                 <th>Name</th>
@@ -59,14 +99,14 @@ const DashUsersList = () => {
               ))}
             </tbody>
             <tfoot>
-              <tr>
+              {/* <tr>
                 <th></th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
                 <th>Change Role</th>
                 <th>Last Login IP</th>
-              </tr>
+              </tr> */}
             </tfoot>
           </table>
         </div>
