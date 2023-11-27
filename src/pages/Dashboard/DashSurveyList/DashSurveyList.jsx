@@ -59,6 +59,26 @@ const DashSurveyList = () => {
       });
     });
   };
+  const handleSurveyStatus = (e, id, status) => {
+    e.preventDefault();
+    const inactiveReason = e.target.inactive_reason.value;
+
+    let postData = {};
+    if (status === "active") {
+      postData = { status: "inactive", inactive_reason: inactiveReason };
+    } else {
+      postData = { status: "active", inactive_reason: "" };
+    }
+    axiosSecure.put(`/survey-status/${id}`, postData).then((res) => {
+      const dataRefetch = refetch();
+      toast.promise(dataRefetch, {
+        loading: "Loading...",
+        success: <b>Status updated!</b>,
+        error: <b>Could not update.</b>,
+      });
+      console.log(res.data);
+    });
+  };
 
   return (
     <section>
@@ -85,6 +105,9 @@ const DashSurveyList = () => {
               <th>Category</th>
               <th>User</th>
               <th>Expire date</th>
+              <th className="tooltip tooltip-bottom" data-tip="Click to change status">
+                Status
+              </th>
               <th>Analytics</th>
               <th>Edit</th>
               <th>Delete</th>
@@ -99,6 +122,7 @@ const DashSurveyList = () => {
                 handleDeleteSurvey={handleDeleteSurvey}
                 handleAddFeatured={handleAddFeatured}
                 handleRemoveFeatured={handleRemoveFeatured}
+                handleSurveyStatus={handleSurveyStatus}
               />
             ))}
           </tbody>
