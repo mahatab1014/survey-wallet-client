@@ -12,6 +12,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import DashHome from "../pages/Dashboard/DashHome/DashHome";
 import DashSurveyList from "../pages/Dashboard/DashSurveyList/DashSurveyList";
 import DashSurveyCreate from "../pages/Dashboard/DashSurveyCreate/DashSurveyCreate";
+import DashUsersList from "../pages/Dashboard/DashUsersList/DashUsersList";
 
 const PublicRoutes = createBrowserRouter([
   {
@@ -72,6 +73,7 @@ const PublicRoutes = createBrowserRouter([
       },
       {
         path: "users",
+        element: <DashUsersList />
       },
       {
         path: "reports",
