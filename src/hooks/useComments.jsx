@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "./useAxiosSecure";
+
+import useAxiosPublic from "./useAxiosPublic";
 
 const useComments = (id) => {
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
 
   const { refetch: commentsRefetch, data: commentsData = [] } = useQuery({
     queryKey: ["commentsData"],
     queryFn: async () => {
-      const response = await axiosSecure(`/survey-comments/${id}`);
+      const response = await axiosPublic(`/survey-comments/${id}`);
       return response.data;
     },
   });

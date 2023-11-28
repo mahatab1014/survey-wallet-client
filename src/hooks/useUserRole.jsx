@@ -2,6 +2,11 @@ import useAxiosSecure from "./useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 const useUserRole = (email) => {
   const axiosSecure = useAxiosSecure();
+
+  // if (!email) {
+  //   return [[], () => {}];
+  // }
+
   const { refetch: refetchUserRole, data: userRole = [] } = useQuery({
     queryKey: ["userRole", email],
     queryFn: async () => {

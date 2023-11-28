@@ -10,9 +10,11 @@ import {
   updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
-import useAxiosSecure from "../hooks/useAxiosSecure";
+
 import useIpAddress from "../hooks/useIpAddress";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 export const AuthContext = createContext(null);
 
@@ -22,6 +24,7 @@ const AuthProvider = ({ children }) => {
   const [authLoading, setAuthLoading] = useState(true);
 
   const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   const [ipAddress] = useIpAddress();
 
   //   Provider
@@ -29,8 +32,19 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      const userEmail = currentUser?.email || user?.email;
+      const loggedUser = { email: userEmail };
       setUser(currentUser);
 
+      if (currentUser) {
+        axiosPublic.post("/jwt", loggedUser, {
+          withCredentials: true,
+        });
+      } else {
+        axiosPublic.post("/logout", loggedUser, {
+          withCredentials: true,
+        });
+      }
       const userData = {
         name: currentUser?.displayName,
         email: currentUser?.email,

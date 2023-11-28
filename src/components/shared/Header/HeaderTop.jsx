@@ -6,11 +6,16 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import useUserRole from "../../../hooks/useUserRole";
+import useAdmin from "../../../hooks/useAdmin";
 
 const HeaderTop = () => {
   const { user } = useAuth();
-  const [userRole, refetchUserRole] = useUserRole(user?.email);
-  
+  const userEmail = user?.email;
+  const [userRole, refetchUserRole] = useUserRole(userEmail);
+  // const [isAdmin] = useAdmin();
+
+  // console.log(isAdmin);
+
   return (
     <>
       <Container>
@@ -37,7 +42,7 @@ const HeaderTop = () => {
                 </Link>
               </div>
             </div>
-            {userRole.role !== "admin" && userRole.role !=="pro_user" && (
+            {userRole.role !== "admin" && userRole.role !== "pro_user" && (
               <div className="flex items-center space-x-2 text-sm">
                 <span className="inline-block bg-orange-color p-1.5 rounded-full text-white animate-bounce">
                   {/* <FaEnvelope className="" /> */}

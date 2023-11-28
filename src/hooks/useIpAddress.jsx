@@ -1,9 +1,9 @@
 import { useState } from "react";
-import useAxiosSecure from "./useAxiosSecure";
+import useAxiosPublic from "./useAxiosPublic";
 
 const useIpAddress = () => {
   const [ipAddress, setIpAddress] = useState({});
-  const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   // axiosSecure
   //   .get("https://api.ipify.org/?format=json")
   //   .then((res) => setIpAddress(res?.data));
