@@ -19,8 +19,12 @@ import DashUpdateSurvey from "../pages/Dashboard/DashUpdateSurvey/DashUpdateSurv
 import PrivateRoutes from "./PrivateRoutes";
 import DashProfile from "../pages/Dashboard/DashProfile/DashProfile";
 import DashAnalytics from "../pages/Dashboard/DashAnalytics/DashAnalytics";
-import { HideAdminRoutes, HideAuthRoutes, HideProUserRoutes, HideSurveyorRoutes } from "./HideRoutes";
-
+import {
+  HideAdminRoutes,
+  HideAuthRoutes,
+  HideProUserRoutes,
+  HideSurveyorRoutes,
+} from "./HideRoutes";
 
 const PublicRoutes = createBrowserRouter([
   {
@@ -149,11 +153,7 @@ const PublicRoutes = createBrowserRouter([
       },
       {
         path: "payment-transactions",
-        element: (
-          <HideProUserRoutes>
-            <DashPaymentTransactions />
-          </HideProUserRoutes>
-        ),
+        element: <DashPaymentTransactions />,
       },
     ],
   },

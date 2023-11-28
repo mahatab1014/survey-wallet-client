@@ -104,6 +104,20 @@ const DashboardNav = () => {
               <span className="mx-2 text-sm font-medium">{menu?.name}</span>
             </NavLink>
           ))}
+
+          <>
+            {pro_userMenu.map((menu, index) => (
+              <NavLink
+                key={index}
+                className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+                to={menu?.path}
+              >
+                {menu.icon}
+                <span className="mx-2 text-sm font-medium">{menu?.name}</span>
+              </NavLink>
+            ))}
+          </>
+          
           {userRole?.role === "admin" && (
             <>
               {adminMenu.map((menu, index) => (
@@ -119,7 +133,7 @@ const DashboardNav = () => {
             </>
           )}
 
-          {(userRole?.role === "pro_user" || userRole?.role === "admin") && (
+          {/* {(userRole?.role === "pro_user" || userRole?.role === "admin") && (
             <>
               {pro_userMenu.map((menu, index) => (
                 <NavLink
@@ -132,7 +146,7 @@ const DashboardNav = () => {
                 </NavLink>
               ))}
             </>
-          )}
+          )} */}
 
           {(userRole?.role === "surveyor" || userRole?.role === "admin") && (
             <>

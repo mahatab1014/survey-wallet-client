@@ -1,12 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Container from "../../components/Container/Container";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { FaCheck } from "react-icons/fa6";
+import Payment from "../Payment/Payment";
+import useAuth from "../../hooks/useAuth";
+import useAdmin from "../../hooks/useAdmin";
 
 const BecomeAProUser = () => {
   let [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
+  const [isAdmin] = useAdmin();
+  const location = useLocation();
+
   return (
     <section>
       <Container>
@@ -143,27 +150,52 @@ const BecomeAProUser = () => {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                    <Dialog.Title
-                      as="h3"
-                      className="text-lg font-medium leading-6 text-gray-900"
-                    >
-                      Payment successful
-                    </Dialog.Title>
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        Your payment has been successfully submitted. We’ve sent
-                        you an email with all of the details of your order.
-                      </p>
+                  <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all p-5">
+                    <div className="">
+                      {user?.email ? (
+                        <>
+                          {isAdmin === "admin" ? (
+                            <h3 className="font-bold text-lg">
+                              Broh! You're a admin
+                            </h3>
+                          ) : (
+                            <Payment />
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <h3 className="font-bold text-lg">Hello there!</h3>
+                          <p className="py-4">
+                            To perform this operation, you need to be logged in.
+                            Please{" "}
+                            <Link
+                              to="/auth"
+                              state={{ from: location }}
+                              className="text-blue-500 underline"
+                            >
+                              log in
+                            </Link>{" "}
+                            or{" "}
+                            <Link
+                              to="/auth"
+                              state={{ from: location }}
+                              className="text-blue-500 underline"
+                            >
+                              create an account
+                            </Link>{" "}
+                            to continue.
+                          </p>
+                        </>
+                      )}
                     </div>
 
-                    <div className="mt-4">
+                    <div className="mt-4 text-right">
                       <button
                         type="button"
                         className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         onClick={() => setIsOpen(!isOpen)}
                       >
-                        Got it, thanks!
+                        Close
                       </button>
                     </div>
                   </Dialog.Panel>
