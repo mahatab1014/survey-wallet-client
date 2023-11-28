@@ -4,9 +4,13 @@ import SurveyTable from "../../../components/SurveyTable/SurveyTable";
 import useSurveysData from "../../../hooks/useSurveysData";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
+import useSurveyDataByUser from "../../../hooks/useSurveyDataByUser";
+import useAdmin from "../../../hooks/useAdmin";
 
 const DashSurveyList = () => {
   const [surveysData, refetch] = useSurveysData();
+  const [isAdmin] = useAdmin();
+  const [userSurveyData, userSurveyDataLoading] = useSurveyDataByUser();
 
   const axiosSecure = useAxiosSecure();
 
@@ -97,7 +101,7 @@ const DashSurveyList = () => {
           <thead>
             <tr>
               <th></th>
-              <th>Featured</th>
+              {isAdmin === "admin" && <th>Featured</th>}
               <th>Name</th>
               <th className="tooltip tooltip-bottom" data-tip="Yes : No">
                 Vote Data
@@ -105,7 +109,10 @@ const DashSurveyList = () => {
               <th>Category</th>
               <th>User</th>
               <th>Expire date</th>
-              <th className="tooltip tooltip-bottom" data-tip="Click to change status">
+              <th
+                className="tooltip tooltip-bottom"
+                data-tip="Click to change status"
+              >
                 Status
               </th>
               <th>Analytics</th>
@@ -114,17 +121,37 @@ const DashSurveyList = () => {
             </tr>
           </thead>
           <tbody>
-            {surveysData.map((survey, index) => (
-              <SurveyTable
-                key={survey?._id}
-                survey={survey}
-                index={index}
-                handleDeleteSurvey={handleDeleteSurvey}
-                handleAddFeatured={handleAddFeatured}
-                handleRemoveFeatured={handleRemoveFeatured}
-                handleSurveyStatus={handleSurveyStatus}
-              />
-            ))}
+            {isAdmin === "admin" && (
+              <>
+                {surveysData?.map((survey, index) => (
+                  <SurveyTable
+                    key={survey?._id}
+                    survey={survey}
+                    index={index}
+                    handleDeleteSurvey={handleDeleteSurvey}
+                    handleAddFeatured={handleAddFeatured}
+                    handleRemoveFeatured={handleRemoveFeatured}
+                    handleSurveyStatus={handleSurveyStatus}
+                  />
+                ))}
+              </>
+            )}
+            {isAdmin !== "admin" && (
+              <>
+                {userSurveyData?.map((survey, index) => (
+                  <SurveyTable
+                    key={survey?._id}
+                    survey={survey}
+                    index={index}
+                    handleDeleteSurvey={handleDeleteSurvey}
+                    handleAddFeatured={handleAddFeatured}
+                    handleRemoveFeatured={handleRemoveFeatured}
+                    handleSurveyStatus={handleSurveyStatus}
+                    isAdmin={isAdmin}
+                  />
+                ))}
+              </>
+            )}
           </tbody>
           {/* <tfoot>
             <tr>

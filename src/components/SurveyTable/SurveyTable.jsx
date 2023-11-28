@@ -14,6 +14,7 @@ const SurveyTable = ({
   handleAddFeatured,
   handleRemoveFeatured,
   handleSurveyStatus,
+  isAdmin,
 }) => {
   const currentDate = new Date().toISOString().split("T")[0];
   let [isOpen, setIsOpen] = useState(false);
@@ -21,23 +22,26 @@ const SurveyTable = ({
   return (
     <tr>
       <th>{index}</th>
-      <td>
-        {survey?.featured !== "true" ? (
-          <button
-            onClick={() => handleAddFeatured(survey?._id)}
-            className="btn btn-xs btn-circle btn-ghost text-orange-color text-xl"
-          >
-            <FaRegStar />
-          </button>
-        ) : (
-          <button
-            onClick={() => handleRemoveFeatured(survey?._id)}
-            className="btn btn-xs btn-circle btn-ghost text-orange-color text-xl"
-          >
-            <FaStar />
-          </button>
-        )}
-      </td>
+      {isAdmin === "admin" && (
+        <td>
+          {survey?.featured !== "true" ? (
+            <button
+              onClick={() => handleAddFeatured(survey?._id)}
+              className="btn btn-xs btn-circle btn-ghost text-orange-color text-xl"
+            >
+              <FaRegStar />
+            </button>
+          ) : (
+            <button
+              onClick={() => handleRemoveFeatured(survey?._id)}
+              className="btn btn-xs btn-circle btn-ghost text-orange-color text-xl"
+            >
+              <FaStar />
+            </button>
+          )}
+        </td>
+      )}
+
       <td>
         <Link className="hover:underline" to={`/survey/${survey?._id}`}>
           {survey?.title}
@@ -51,18 +55,28 @@ const SurveyTable = ({
       <td>{survey?.user?.email}</td>
       <td>{survey?.timestamp < currentDate ? "Expired" : survey?.timestamp}</td>
       <td>
-        <span
-          onClick={() => setIsOpen(!isOpen)}
-          className={`${survey?.status !== "active" && "hidden"} btn btn-xs`}
-        >
-          {survey?.status === "active" && "Published"}
-        </span>
-        <span
-          onClick={() => setIsOpen(!isOpen)}
-          className={`${survey?.status !== "inactive" && "hidden"} btn btn-xs`}
-        >
-          {survey?.status === "inactive" && "unpublish"}
-        </span>
+        {isAdmin === "admin" ? (
+          <>
+            <span
+              onClick={() => setIsOpen(!isOpen)}
+              className={`${
+                survey?.status !== "active" && "hidden"
+              } btn btn-xs`}
+            >
+              {survey?.status === "active" && "Published"}
+            </span>
+            <span
+              onClick={() => setIsOpen(!isOpen)}
+              className={`${
+                survey?.status !== "inactive" && "hidden"
+              } btn btn-xs`}
+            >
+              {survey?.status === "inactive" && "unpublish"}
+            </span>
+          </>
+        ) : (
+          <>{survey?.status}</>
+        )}
       </td>
       <td>
         <button className="btn btn-xs btn-circle btn-info text-white text-xl">
@@ -76,6 +90,7 @@ const SurveyTable = ({
           </button>
         </Link>
       </td>
+
       <td>
         <button
           onClick={() => handleDeleteSurvey(survey?._id)}
