@@ -40,123 +40,140 @@ const SurveysDetails = () => {
   const [userSurveyDisLiked, setUserSurveyDisLiked] = useState({});
   const [selected, setSelected] = useState();
   const [surveyReported, setSurveyReported] = useState();
+  // document.getElementById("user_not_found").showModal();
   const handlePostSurvey = () => {
-    const updatedOptions = singleSurveyData.options.map((option) => {
-      if (option.name === "yes" && selected === "yes") {
-        return { ...option, vote_count: parseInt(option.vote_count) + 1 };
-      } else if (option.name === "no" && selected === "no") {
-        return { ...option, vote_count: parseInt(option.vote_count) + 1 };
-      } else {
-        return option;
-      }
-    });
-    const updatedUser = user?.email;
+    if (user) {
+      const updatedOptions = singleSurveyData.options.map((option) => {
+        if (option.name === "yes" && selected === "yes") {
+          return { ...option, vote_count: parseInt(option.vote_count) + 1 };
+        } else if (option.name === "no" && selected === "no") {
+          return { ...option, vote_count: parseInt(option.vote_count) + 1 };
+        } else {
+          return option;
+        }
+      });
+      const updatedUser = user?.email;
 
-    const postData = {
-      options: updatedOptions,
-      participate_user: { user: updatedUser, vote: selected },
-    };
+      const postData = {
+        options: updatedOptions,
+        participate_user: { user: updatedUser, vote: selected },
+      };
 
-    axiosSecure.post(`/survey/${id}`, postData).then((response) => {
-      console.log(response.data);
-      if (response.data.message === "Survey updated successfully.") {
-        const callFunction = refetch();
-        toast.promise(callFunction, {
-          loading: "Vote posting...",
-          success: <b>Vote posted!</b>,
-          error: <b>Something went wrong.</b>,
-        });
-      }
-    });
+      axiosSecure.post(`/survey/${id}`, postData).then((response) => {
+        console.log(response.data);
+        if (response.data.message === "Survey updated successfully.") {
+          const callFunction = refetch();
+          toast.promise(callFunction, {
+            loading: "Vote posting...",
+            success: <b>Vote posted!</b>,
+            error: <b>Something went wrong.</b>,
+          });
+        }
+      });
+    } else {
+      document.getElementById("user_not_found").showModal();
+    }
   };
 
   const handleLikes = async () => {
-    const numberLike = parseInt(likes);
+    if (user) {
+      const numberLike = parseInt(likes);
 
-    const incressOne = numberLike + 1;
-    const postData = {
-      likes: incressOne,
-      user_liked: {
-        users_name: user?.displayName,
-        email: user?.email,
-        uid: user?.uid,
-      },
-    };
-    if (!userSurveyLiked.liked) {
-      axiosSecure
-        .post(`/survey-likes-comments/${singleSurveyData?._id}`, postData)
-        .then((res) => {
-          console.log(res.data);
-          if (res.data.message === "Survey updated successfully.") {
-            const callFunction = refetch();
-            toast.promise(callFunction, {
-              loading: "Loading...",
-              success: <b>❤️ Liked!</b>,
-              error: <b>Something went wrong.</b>,
-            });
-          }
-        });
+      const incressOne = numberLike + 1;
+      const postData = {
+        likes: incressOne,
+        user_liked: {
+          users_name: user?.displayName,
+          email: user?.email,
+          uid: user?.uid,
+        },
+      };
+      if (!userSurveyLiked.liked) {
+        axiosSecure
+          .post(`/survey-likes-comments/${singleSurveyData?._id}`, postData)
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.message === "Survey updated successfully.") {
+              const callFunction = refetch();
+              toast.promise(callFunction, {
+                loading: "Loading...",
+                success: <b>❤️ Liked!</b>,
+                error: <b>Something went wrong.</b>,
+              });
+            }
+          });
+      } else {
+        toast.success("You already liked it");
+      }
     } else {
-      toast.success("You already liked it");
+      document.getElementById("user_not_found").showModal();
     }
   };
   const handleDislikes = async () => {
-    const numberDislikes = parseInt(dis_likes);
-    const incressOne = numberDislikes + 1;
-    const postData = {
-      dis_likes: incressOne,
-      user_dis_liked: {
-        users_name: user?.displayName,
-        email: user?.email,
-        uid: user?.uid,
-      },
-    };
+    if (user) {
+      const numberDislikes = parseInt(dis_likes);
+      const incressOne = numberDislikes + 1;
+      const postData = {
+        dis_likes: incressOne,
+        user_dis_liked: {
+          users_name: user?.displayName,
+          email: user?.email,
+          uid: user?.uid,
+        },
+      };
 
-    if (!userSurveyDisLiked.dis_liked) {
-      axiosSecure
-        .post(`/survey-likes-comments/${singleSurveyData?._id}`, postData)
-        .then((res) => {
-          console.log(res.data);
-          if (res.data.message === "Survey updated successfully.") {
-            const callFunction = refetch();
-            toast.promise(callFunction, {
-              loading: "Loading...",
-              success: <b>👎 Disliked!</b>,
-              error: <b>Something went wrong.</b>,
-            });
-          }
-        });
+      if (!userSurveyDisLiked.dis_liked) {
+        axiosSecure
+          .post(`/survey-likes-comments/${singleSurveyData?._id}`, postData)
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.message === "Survey updated successfully.") {
+              const callFunction = refetch();
+              toast.promise(callFunction, {
+                loading: "Loading...",
+                success: <b>👎 Disliked!</b>,
+                error: <b>Something went wrong.</b>,
+              });
+            }
+          });
+      } else {
+        toast.success("You already disliked it");
+      }
     } else {
-      toast.success("You already disliked it");
+      document.getElementById("user_not_found").showModal();
     }
   };
   const handlePostComments = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const comments = form.comment.value;
-    const postData = {
-      survey_id: id,
-      comments: comments,
-      user: {
-        name: user?.displayName,
-        user_avatar: user?.photoURL,
-        user_email: user?.email,
-        user_uid: user?.uid,
-      },
-    };
+    if (user) {
+      e.preventDefault();
+      const form = e.target;
+      const comments = form.comment.value;
+      const postData = {
+        survey_id: id,
+        comments: comments,
+        user: {
+          name: user?.displayName,
+          user_avatar: user?.photoURL,
+          user_email: user?.email,
+          user_uid: user?.uid,
+        },
+      };
 
-    axiosSecure.post("/survey-comments", postData).then((res) => {
-      if (res.data.insertedId.length > 0) {
-        const callFunction = commentsRefetch();
+      axiosSecure.post("/survey-comments", postData).then((res) => {
+        if (res.data.insertedId.length > 0) {
+          const callFunction = commentsRefetch();
 
-        toast.promise(callFunction, {
-          loading: "Comment posting...",
-          success: <b>Comment posted!</b>,
-          error: <b>Could not posted.</b>,
-        });
-        form.reset();
-      }
-    });
+          toast.promise(callFunction, {
+            loading: "Comment posting...",
+            success: <b>Comment posted!</b>,
+            error: <b>Could not posted.</b>,
+          });
+          form.reset();
+        }
+      });
+    } else {
+      document.getElementById("user_not_found").showModal();
+    }
   };
 
   const handleReport = async (e) => {
@@ -204,8 +221,7 @@ const SurveysDetails = () => {
     }
   }, [axiosSecure, id, user, singleSurveyData]);
 
-
-  const location = useLocation()
+  const location = useLocation();
 
   return (
     <section>
@@ -235,8 +251,8 @@ const SurveysDetails = () => {
                             ? "ring-2 ring-white/60 ring-offset-2 ring-offset-sky-300"
                             : ""
                         }
-                  ${checked ? "bg-sky-900/75 text-white" : "bg-white"}
-                    relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
+                    ${checked ? "bg-sky-900/75 text-white" : "bg-white"}
+                      relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none`
                       }
                     >
                       {({ checked }) => (
@@ -302,8 +318,8 @@ const SurveysDetails = () => {
               <div className="max-w-lg m-auto">
                 <div
                   className="flex flex-wrap items-end justify-between lg:[&>div>span]:flex-nowrap
-          [&>div]:flex [&>div]:flex-col
-          text-center mb-2 gap-3"
+            [&>div]:flex [&>div]:flex-col
+            text-center mb-2 gap-3"
                 >
                   <div className="">
                     <span className="text-xs">{likes} Likes</span>
@@ -443,7 +459,7 @@ const SurveysDetails = () => {
                       Only valid or Logged in user can report survey
                     </h3>
                     <div className="mt-4">
-                      <Link to="/auth" state={{from: location}}>
+                      <Link to="/auth" state={{ from: location }}>
                         <button
                           type="submit"
                           className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
@@ -459,6 +475,41 @@ const SurveysDetails = () => {
 
             <div className="modal-action">
               <form method="dialog">
+                <button className="btn">Close</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+
+        <dialog
+          id="user_not_found"
+          className="modal modal-bottom sm:modal-middle"
+        >
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Hello there!</h3>
+            <p className="py-4">
+              To perform this operation, you need to be logged in. Please{" "}
+              <Link
+                to="/auth"
+                state={{ from: location }}
+                className="text-blue-500 underline"
+              >
+                log in
+              </Link>{" "}
+              or{" "}
+              <Link
+                to="/auth"
+                state={{ from: location }}
+                className="text-blue-500 underline"
+              >
+                create an account
+              </Link>{" "}
+              to continue.
+            </p>
+
+            <div className="modal-action">
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
                 <button className="btn">Close</button>
               </form>
             </div>
