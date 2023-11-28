@@ -6,11 +6,13 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
   updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import useIpAddress from "../hooks/useIpAddress";
+import Swal from "sweetalert2";
 
 export const AuthContext = createContext(null);
 
@@ -70,6 +72,18 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, google_provider);
   };
 
+  const logOutUser = () => {
+    return signOut(auth).then(() => {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Logout successfully done",
+        showConfirmButton: false,
+        timer: 2500,
+      });
+    });
+  };
+
   const authInfo = {
     user,
     authLoading,
@@ -77,6 +91,7 @@ const AuthProvider = ({ children }) => {
     signInWithEmail,
     contineWithGoogle,
     updateUserProfile,
+    logOutUser,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

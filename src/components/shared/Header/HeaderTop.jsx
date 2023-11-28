@@ -5,52 +5,14 @@ import { LuLayoutDashboard } from "react-icons/lu";
 
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
+import useUserRole from "../../../hooks/useUserRole";
 
 const HeaderTop = () => {
   const { user } = useAuth();
-
+  const [userRole, refetchUserRole] = useUserRole(user?.email);
+  
   return (
     <>
-      {/* <Container>
-        <div className="flex justify-between items-center">
-          <div>
-            <Link>
-              <picture>
-                <img className="w-56" src={LogoLight} alt="Survey Wallet" />
-              </picture>
-            </Link>
-          </div>
-
-          <div className="flex gap-5">
-            <div className="flex items-center space-x-2">
-              <span className="inline-block bg-[#F5972F] p-2 rounded-full text-white">
-                <FaPhone className="text-xl" />
-              </span>
-              <div>
-                <strong className="block">Call Now</strong>
-                <Link to="tel:8801775025349">
-                  <span className="hover:underline">(+00) 888.666.88</span>
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <span className="inline-block bg-[#F5972F] p-2 rounded-full text-white">
-                <FaEnvelope className="text-xl" />
-              </span>
-              <div>
-                <strong className="block">Email</strong>
-                <Link to="mailto:mahatab1014@gmail.com">
-                  <span className="hover:underline">support@sw.com</span>
-                </Link>
-              </div>
-            </div>
-            <div>
-              <button className="btn">Request a Quote</button>
-            </div>
-          </div>
-        </div>
-      </Container> */}
       <Container>
         <div className="flex justify-end items-center py-1">
           <div className="flex gap-5">
@@ -75,9 +37,9 @@ const HeaderTop = () => {
                 </Link>
               </div>
             </div>
-            {user && (
+            {userRole.role !== "admin" && userRole.role !=="pro_user" && (
               <div className="flex items-center space-x-2 text-sm">
-                <span className="inline-block bg-orange-color p-1.5 rounded-full text-white">
+                <span className="inline-block bg-orange-color p-1.5 rounded-full text-white animate-bounce">
                   {/* <FaEnvelope className="" /> */}
                 </span>
                 <div>

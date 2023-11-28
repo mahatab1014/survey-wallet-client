@@ -16,6 +16,7 @@ import DashUsersList from "../pages/Dashboard/DashUsersList/DashUsersList";
 import DashReportList from "../pages/Dashboard/DashReportList/DashReportList";
 import DashPaymentTransactions from "../pages/Dashboard/DashPaymentTransactions/DashPaymentTransactions";
 import DashUpdateSurvey from "../pages/Dashboard/DashUpdateSurvey/DashUpdateSurvey";
+import PrivateRoutes from "./PrivateRoutes";
 
 const PublicRoutes = createBrowserRouter([
   {
@@ -60,7 +61,11 @@ const PublicRoutes = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <PrivateRoutes>
+        <DashboardLayout />
+      </PrivateRoutes>
+    ),
     children: [
       {
         index: true,
@@ -76,7 +81,7 @@ const PublicRoutes = createBrowserRouter([
       },
       {
         path: "survey-update/:id",
-        element: <DashUpdateSurvey />
+        element: <DashUpdateSurvey />,
       },
       {
         path: "users",

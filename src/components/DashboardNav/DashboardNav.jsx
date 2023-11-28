@@ -13,7 +13,8 @@ import useAuth from "../../hooks/useAuth";
 import LogoLight from "../../assets/images/logo/logo_light.png";
 
 const DashboardNav = () => {
-  const { user } = useAuth();
+  const { user, logOutUser } = useAuth();
+
 
   const dashboardMenu = [
     {
@@ -117,7 +118,10 @@ const DashboardNav = () => {
               </span>
             </div>
 
-            <span className="btn btn-ghost btn-circle btn-sm text-lg">
+            <span
+              onClick={logOutUser}
+              className="btn btn-ghost btn-circle btn-sm text-lg"
+            >
               <MdLogout />
             </span>
           </div>
