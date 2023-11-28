@@ -3,7 +3,11 @@ import useAxiosSecure from "./useAxiosSecure";
 
 const useSingleData = (id) => {
   const axiosSecure = useAxiosSecure();
-  const { refetch, data: singleSurveyData = {} } = useQuery({
+  const {
+    refetch,
+    data: singleSurveyData = {},
+    isLoading,
+  } = useQuery({
     queryKey: ["singleSurveyData", id],
     queryFn: async () => {
       const response = await axiosSecure(`/survey/${id}`);
@@ -11,7 +15,7 @@ const useSingleData = (id) => {
     },
   });
 
-  return [singleSurveyData, refetch];
+  return [singleSurveyData, refetch, isLoading];
 };
 
 export default useSingleData;
