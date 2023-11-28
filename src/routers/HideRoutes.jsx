@@ -1,15 +1,13 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
 import useAdmin from "../hooks/useAdmin";
 import ReactPreloader from "../components/PreLoader/ReactPreloader";
 
-const HideAdminRoutes = ({ children }) => {
+const handleUserAccess = (allowedRoles, children) => {
   const { logOutUser } = useAuth();
   const [isAdmin, isAdminLoading] = useAdmin();
   const navigate = useNavigate();
-
-  console.log(isAdmin);
 
   const handleOthersUser = () => {
     Swal.fire({
@@ -23,9 +21,9 @@ const HideAdminRoutes = ({ children }) => {
       cancelButtonText: "Log out!",
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate("/dashboard"); // Use navigate to redirect :::::::::::::
+        navigate("/dashboard");
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        logOutUser(); // log out when user click on "Log out!" button :::::::::::
+        logOutUser();
       }
     });
   };
@@ -34,11 +32,36 @@ const HideAdminRoutes = ({ children }) => {
     return <ReactPreloader />;
   }
 
-  if (isAdmin === "admin") {
+  if (isAdmin && allowedRoles.includes(isAdmin)) {
     return children;
   }
 
   return handleOthersUser();
 };
 
-export default HideAdminRoutes;
+export const HideAdminRoutes = ({ children }) => {
+  return handleUserAccess(["admin"], children);
+};
+
+export const HideAuthRoutes = ({ children }) => {
+  const { user, authLoading } = useAuth();
+  const location = useLocation();
+
+  if (authLoading) {
+    return <ReactPreloader />;
+  }
+
+  if (user) {
+    return <Navigate to="/dashboard" replace></Navigate>;
+  }
+
+  return children;
+};
+
+export const HideProUserRoutes = ({ children }) => {
+  return handleUserAccess(["pro_user", "admin"], children);
+};
+
+export const HideSurveyorRoutes = ({ children }) => {
+  return handleUserAccess(["surveyor", "admin"], children);
+};

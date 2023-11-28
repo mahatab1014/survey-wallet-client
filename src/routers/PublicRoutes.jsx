@@ -17,10 +17,10 @@ import DashReportList from "../pages/Dashboard/DashReportList/DashReportList";
 import DashPaymentTransactions from "../pages/Dashboard/DashPaymentTransactions/DashPaymentTransactions";
 import DashUpdateSurvey from "../pages/Dashboard/DashUpdateSurvey/DashUpdateSurvey";
 import PrivateRoutes from "./PrivateRoutes";
-import HideAuthRoutes from "./HideAuthRoutes";
 import DashProfile from "../pages/Dashboard/DashProfile/DashProfile";
 import DashAnalytics from "../pages/Dashboard/DashAnalytics/DashAnalytics";
-import HideAdminRoutes from "./HideAdminRoutes";
+import { HideAdminRoutes, HideAuthRoutes, HideProUserRoutes, HideSurveyorRoutes } from "./HideRoutes";
+
 
 const PublicRoutes = createBrowserRouter([
   {
@@ -85,27 +85,51 @@ const PublicRoutes = createBrowserRouter([
       },
       {
         path: "survey-list",
-        element: <DashSurveyList />,
+        element: (
+          <HideSurveyorRoutes>
+            <DashSurveyList />
+          </HideSurveyorRoutes>
+        ),
       },
       {
         path: "survey-create",
-        element: <DashSurveyCreate />,
+        element: (
+          <HideSurveyorRoutes>
+            <DashSurveyCreate />
+          </HideSurveyorRoutes>
+        ),
       },
       {
         path: "survey-analytics/:id",
-        element: <DashAnalytics />,
+        element: (
+          <HideSurveyorRoutes>
+            <DashAnalytics />
+          </HideSurveyorRoutes>
+        ),
       },
       {
         path: "survey-analytics",
-        element: <DashSurveyList />,
+        element: (
+          <HideSurveyorRoutes>
+            <DashSurveyList />
+          </HideSurveyorRoutes>
+        ),
       },
       {
         path: "survey-update/:id",
-        element: <DashUpdateSurvey />,
+        element: (
+          <HideSurveyorRoutes>
+            <DashUpdateSurvey />
+          </HideSurveyorRoutes>
+        ),
       },
       {
         path: "survey-update",
-        element: <DashSurveyList />,
+        element: (
+          <HideSurveyorRoutes>
+            <DashSurveyList />
+          </HideSurveyorRoutes>
+        ),
       },
       {
         path: "users",
@@ -125,7 +149,11 @@ const PublicRoutes = createBrowserRouter([
       },
       {
         path: "payment-transactions",
-        element: <DashPaymentTransactions />,
+        element: (
+          <HideProUserRoutes>
+            <DashPaymentTransactions />
+          </HideProUserRoutes>
+        ),
       },
     ],
   },
