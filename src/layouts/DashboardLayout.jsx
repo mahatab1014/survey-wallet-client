@@ -5,7 +5,7 @@ const DashboardLayout = () => {
   return (
     <>
       <main className="flex">
-        <aside className="w-2/12 h-screen flex items-center">
+        <aside className="w-2/12 h-screen flex items-center absolute md:static">
           <div className="drawer z-50 lg:hidden">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
             <div className="drawer-content">
@@ -31,7 +31,7 @@ const DashboardLayout = () => {
             <DashboardNav />
           </div>
         </aside>
-        <div className="w-10/12">
+        <div className="px-5 md:px-0 md:w-10/12 h-screen overflow-y-scroll">
           <Outlet />
         </div>
       </main>
