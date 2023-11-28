@@ -11,7 +11,7 @@ const MainLayout = () => {
       <main>
         <Outlet />
       </main>
-      <footer>
+      <footer className="pt-20 pb-5">
         <Footer />
       </footer>
     </>
