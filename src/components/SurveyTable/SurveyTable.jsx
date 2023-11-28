@@ -81,9 +81,11 @@ const SurveyTable = ({
         )}
       </td>
       <td>
-        <button className="btn btn-xs btn-circle btn-info text-white text-xl">
-          <IoAnalyticsSharp />
-        </button>
+        <Link to={`/dashboard/survey-analytics/${survey?._id}`}>
+          <button className="btn btn-xs btn-circle btn-info text-white text-xl">
+            <IoAnalyticsSharp />
+          </button>
+        </Link>
       </td>
       <td>
         <Link to={`/dashboard/survey-update/${survey?._id}`}>
