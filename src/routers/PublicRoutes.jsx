@@ -18,6 +18,9 @@ import DashPaymentTransactions from "../pages/Dashboard/DashPaymentTransactions/
 import DashUpdateSurvey from "../pages/Dashboard/DashUpdateSurvey/DashUpdateSurvey";
 import PrivateRoutes from "./PrivateRoutes";
 import HideAuthRoutes from "./HideAuthRoutes";
+import DashProfile from "../pages/Dashboard/DashProfile/DashProfile";
+import DashAnalytics from "../pages/Dashboard/DashAnalytics/DashAnalytics";
+import HideAdminRoutes from "./HideAdminRoutes";
 
 const PublicRoutes = createBrowserRouter([
   {
@@ -77,6 +80,10 @@ const PublicRoutes = createBrowserRouter([
         element: <DashHome />,
       },
       {
+        path: "profile",
+        element: <DashProfile />,
+      },
+      {
         path: "survey-list",
         element: <DashSurveyList />,
       },
@@ -85,16 +92,36 @@ const PublicRoutes = createBrowserRouter([
         element: <DashSurveyCreate />,
       },
       {
+        path: "survey-analytics/:id",
+        element: <DashAnalytics />,
+      },
+      {
+        path: "survey-analytics",
+        element: <DashSurveyList />,
+      },
+      {
         path: "survey-update/:id",
         element: <DashUpdateSurvey />,
       },
       {
+        path: "survey-update",
+        element: <DashSurveyList />,
+      },
+      {
         path: "users",
-        element: <DashUsersList />,
+        element: (
+          <HideAdminRoutes>
+            <DashUsersList />
+          </HideAdminRoutes>
+        ),
       },
       {
         path: "reports",
-        element: <DashReportList />,
+        element: (
+          <HideAdminRoutes>
+            <DashReportList />
+          </HideAdminRoutes>
+        ),
       },
       {
         path: "payment-transactions",

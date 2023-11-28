@@ -4,17 +4,20 @@ import {
   FaHouse,
   FaSquarePollHorizontal,
   FaSquarePollVertical,
+  FaUser,
   FaUsers,
 } from "react-icons/fa6";
 import { FaHistory } from "react-icons/fa";
 
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import LogoLight from "../../assets/images/logo/logo_light.png";
+import useUserRole from "../../hooks/useUserRole";
 
 const DashboardNav = () => {
   const { user, logOutUser } = useAuth();
-
+  const [userRole, refetchUserRole] = useUserRole(user?.email);
+  console.log(userRole);
 
   const dashboardMenu = [
     {
@@ -22,6 +25,13 @@ const DashboardNav = () => {
       path: "/dashboard",
       icon: <FaHouse />,
     },
+    {
+      name: "Profile",
+      path: "/dashboard/profile",
+      icon: <FaUser />,
+    },
+  ];
+  const surveyorMenu = [
     {
       name: "Survey List",
       path: "/dashboard/survey-list",
@@ -31,6 +41,13 @@ const DashboardNav = () => {
       name: "Survey Create",
       path: "/dashboard/survey-create",
       icon: <FaSquarePollVertical />,
+    },
+  ];
+  const pro_userMenu = [
+    {
+      name: "Payments Transaction",
+      path: "/dashboard/payment-transactions",
+      icon: <FaHistory />,
     },
   ];
   const adminMenu = [
@@ -43,11 +60,6 @@ const DashboardNav = () => {
       name: "Reports List",
       path: "/dashboard/reports",
       icon: <MdOutlineReportProblem />,
-    },
-    {
-      name: "Payments Transaction",
-      path: "/dashboard/payment-transactions",
-      icon: <FaHistory />,
     },
   ];
 
@@ -93,34 +105,71 @@ const DashboardNav = () => {
               <span className="mx-2 text-sm font-medium">{menu?.name}</span>
             </NavLink>
           ))}
-          {adminMenu.map((menu, index) => (
-            <NavLink
-              key={index}
-              className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
-              to={menu?.path}
-            >
-              {menu.icon}
-              <span className="mx-2 text-sm font-medium">{menu?.name}</span>
-            </NavLink>
-          ))}
+          {userRole?.role === "admin" && (
+            <>
+              {adminMenu.map((menu, index) => (
+                <NavLink
+                  key={index}
+                  className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+                  to={menu?.path}
+                >
+                  {menu.icon}
+                  <span className="mx-2 text-sm font-medium">{menu?.name}</span>
+                </NavLink>
+              ))}
+            </>
+          )}
+
+          {(userRole?.role === "pro_user" || userRole?.role === "admin") && (
+            <>
+              {pro_userMenu.map((menu, index) => (
+                <NavLink
+                  key={index}
+                  className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+                  to={menu?.path}
+                >
+                  {menu.icon}
+                  <span className="mx-2 text-sm font-medium">{menu?.name}</span>
+                </NavLink>
+              ))}
+            </>
+          )}
+
+          {(userRole?.role === "surveyor" || userRole?.role === "admin") && (
+            <>
+              {surveyorMenu.map((menu, index) => (
+                <NavLink
+                  key={index}
+                  className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+                  to={menu?.path}
+                >
+                  {menu.icon}
+                  <span className="mx-2 text-sm font-medium">{menu?.name}</span>
+                </NavLink>
+              ))}
+            </>
+          )}
         </nav>
 
         <div className="mt-6">
-          <div className="flex items-center justify-between mt-6">
-            <div className="flex items-center gap-x-2">
-              <img
-                className="object-cover rounded-full h-7 w-7"
-                src={user?.photoURL}
-                alt="avatar"
-              />
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                {user?.displayName}
-              </span>
-            </div>
+          <div className="flex items-center justify-between mt-6 hover:bg-orange-200 rounded-box">
+            <Link to="/dashboard/profile">
+              <div className="flex items-center gap-x-2">
+                <img
+                  className="object-cover rounded-full h-7 w-7"
+                  src={user?.photoURL}
+                  alt="avatar"
+                />
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
+                  {user?.displayName}
+                </span>
+              </div>
+            </Link>
 
             <span
               onClick={logOutUser}
-              className="btn btn-ghost btn-circle btn-sm text-lg"
+              data-tip="Log out"
+              className="btn btn-ghost btn-circle btn-sm text-lg flex tooltip tooltip-top"
             >
               <MdLogout />
             </span>
