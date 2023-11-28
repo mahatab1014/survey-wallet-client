@@ -56,6 +56,7 @@ const DashUsersList = () => {
             <form className="text-center" onSubmit={handleFilterByRole}>
               <p className="mb-2">Filter By User Role</p>
               <select name="user_role" className="search-form-field w-full">
+                <option value="" selected>all user</option>
                 {role_data.map((role) => (
                   <option
                     key={role?.id}

@@ -11,7 +11,6 @@ const DashSurveyList = () => {
   const [surveysData, refetch] = useSurveysData();
   const [isAdmin] = useAdmin();
   const [userSurveyData, userSurveyDataLoading] = useSurveyDataByUser();
-
   const axiosSecure = useAxiosSecure();
 
   const handleDeleteSurvey = (id) => {
@@ -132,6 +131,7 @@ const DashSurveyList = () => {
                     handleAddFeatured={handleAddFeatured}
                     handleRemoveFeatured={handleRemoveFeatured}
                     handleSurveyStatus={handleSurveyStatus}
+                    isAdmin={isAdmin}
                   />
                 ))}
               </>

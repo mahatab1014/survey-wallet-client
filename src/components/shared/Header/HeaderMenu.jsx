@@ -4,8 +4,10 @@ import { AiOutlineSearch } from "react-icons/ai";
 import Container from "../../Container/Container";
 import HeaderTop from "./HeaderTop";
 import LogoDark from "../../../assets/images/logo/logo_dark.png";
+import useAuth from "../../../hooks/useAuth";
 
 const HeaderMenu = () => {
+  const { user } = useAuth();
   const activeButton = `!bg-transparent !border-b-2 hover:!border-b-2 !border-white active:scale-95 font-bold uppercase`;
   const inActiveButton = `!bg-transparent !border-b-2 !border-transparent hover:!border-b-2 hover:!border-white hover:!text-white active:scale-95 font-medium uppercase`;
   const menuLinks = (
@@ -62,6 +64,25 @@ const HeaderMenu = () => {
       </li>
     </>
   );
+  const menuLinksForMobile = (
+    <>
+      <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/surveys">Surveys</NavLink>
+      </li>
+      <li>
+        <NavLink to="/blog">Blog</NavLink>
+      </li>
+      <li>
+        <NavLink to="/about-us">About Us</NavLink>
+      </li>
+      <li>
+        <NavLink to="/contact-us">Contact Us</NavLink>
+      </li>
+    </>
+  );
 
   return (
     <>
@@ -69,13 +90,16 @@ const HeaderMenu = () => {
         <HeaderTop />
       </div>
 
-      <div className="bg-[#041729fa] sticky top-0">
+      <div className="bg-[#041729fa] z-50">
         <Container>
           <nav>
             <div className="navbar">
               <div className="navbar-start">
                 <div className="dropdown">
-                  <label tabIndex={0} className="btn btn-ghost lg:hidden">
+                  <label
+                    tabIndex={0}
+                    className="btn btn-ghost lg:hidden text-white"
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
@@ -93,9 +117,9 @@ const HeaderMenu = () => {
                   </label>
                   <ul
                     tabIndex={0}
-                    className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                    className="menu menu-sm dropdown-content mt-3 z-[9991] p-2 shadow bg-base-100 rounded-box w-52"
                   >
-                    {menuLinks}
+                    {menuLinksForMobile}
                   </ul>
                 </div>
                 <Link>
@@ -109,16 +133,37 @@ const HeaderMenu = () => {
                   {menuLinks}
                 </ul>
               </div>
-              <div className="hidden md:inline-flex navbar-end space-x-2">
-                <button className="btn btn-square border-none bg-gray-950 hover:bg-stone-950 text-white">
-                  <AiOutlineSearch className="text-2xl" />
-                </button>
-                <button className="btn btn-square border-none bg-gray-950 hover:bg-stone-950 text-white">
-                  <FaFacebook className="text-2xl" />
-                </button>
-                <button className="btn btn-square border-none bg-gray-950 hover:bg-stone-950 text-white">
-                  <FaXTwitter className="text-2xl" />
-                </button>
+              <div className="navbar-end">
+                <div className="space-x-2 md:hidden">
+                  {user?.email ? (
+                    <>
+                      <Link to="/dashboard">
+                        <button className="btn btn-sm border-none bg-gray-950 hover:bg-stone-950 text-white">
+                          Dashboard
+                        </button>
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link to="/auth">
+                        <button className="btn btn-sm border-none bg-gray-950 hover:bg-stone-950 text-white">
+                          Login
+                        </button>
+                      </Link>
+                    </>
+                  )}
+                </div>
+                <div className="space-x-2 hidden md:block">
+                  <button className="btn btn-square border-none bg-gray-950 hover:bg-stone-950 text-white">
+                    <AiOutlineSearch className="text-2xl" />
+                  </button>
+                  <button className="btn btn-square border-none bg-gray-950 hover:bg-stone-950 text-white">
+                    <FaFacebook className="text-2xl" />
+                  </button>
+                  <button className="btn btn-square border-none bg-gray-950 hover:bg-stone-950 text-white">
+                    <FaXTwitter className="text-2xl" />
+                  </button>
+                </div>
               </div>
             </div>
           </nav>

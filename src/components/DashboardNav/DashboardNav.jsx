@@ -17,7 +17,6 @@ import useUserRole from "../../hooks/useUserRole";
 const DashboardNav = () => {
   const { user, logOutUser } = useAuth();
   const [userRole, refetchUserRole] = useUserRole(user?.email);
-  console.log(userRole);
 
   const dashboardMenu = [
     {
