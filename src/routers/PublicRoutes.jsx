@@ -17,6 +17,7 @@ import DashReportList from "../pages/Dashboard/DashReportList/DashReportList";
 import DashPaymentTransactions from "../pages/Dashboard/DashPaymentTransactions/DashPaymentTransactions";
 import DashUpdateSurvey from "../pages/Dashboard/DashUpdateSurvey/DashUpdateSurvey";
 import PrivateRoutes from "./PrivateRoutes";
+import HideAuthRoutes from "./HideAuthRoutes";
 
 const PublicRoutes = createBrowserRouter([
   {
@@ -43,7 +44,11 @@ const PublicRoutes = createBrowserRouter([
   },
   {
     path: "/auth",
-    element: <AuthLayout />,
+    element: (
+      <HideAuthRoutes>
+        <AuthLayout />
+      </HideAuthRoutes>
+    ),
     children: [
       {
         index: true,

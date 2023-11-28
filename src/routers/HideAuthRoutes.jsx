@@ -2,7 +2,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import ReactPreloader from "../components/PreLoader/ReactPreloader";
 
-const PrivateRoutes = ({ children }) => {
+const HideAuthRoutes = ({ children }) => {
   const { user, authLoading } = useAuth();
   const location = useLocation();
 
@@ -11,10 +11,10 @@ const PrivateRoutes = ({ children }) => {
   }
 
   if (user) {
-    return children;
+    return <Navigate to="/dashboard" replace></Navigate>;
   }
 
-  return <Navigate to="/auth" state={{ from: location }} replace></Navigate>;
+  return children;
 };
 
-export default PrivateRoutes;
+export default HideAuthRoutes;
