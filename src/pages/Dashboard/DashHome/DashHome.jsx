@@ -5,9 +5,9 @@ import moment from "moment";
 
 const DashHome = () => {
   const [totalCount, totalCountLoading] = useTotalCount();
-  const [isAdmin] = useAdmin();
+  const [isAdmin, isAdminLoading] = useAdmin();
 
-  if (isAdmin === "admin" && totalCountLoading) {
+  if (isAdminLoading && totalCountLoading) {
     return <SpinnerLoader />;
   }
 
@@ -22,25 +22,29 @@ const DashHome = () => {
               <div className="stat place-items-center">
                 <div className="stat-title">Total USER</div>
                 <div className="stat-value text-secondary">
-                  {totalCount?.total_user}
+                  {String(totalCount?.total_user)}
                 </div>
                 <div className="stat-desc text-secondary">↗︎ 40 (2%)</div>
               </div>
               <div className="stat place-items-center">
                 <div className="stat-title">Total Survey</div>
-                <div className="stat-value">{totalCount?.total_survey}</div>
+                <div className="stat-value">
+                  {String(totalCount?.total_survey)}
+                </div>
                 <div className="stat-desc">From Start to {date}</div>
               </div>
               <div className="stat place-items-center">
                 <div className="stat-title">Total Comments</div>
-                <div className="stat-value">{totalCount?.total_comment}</div>
-                <div className="stat-desc">From Start to {date}</div>
+                <div className="stat-value">
+                  {String(totalCount?.total_comment)}
+                </div>
+                <div className="stat-desc">From Start to {String(date)}</div>
               </div>
 
               <div className="stat place-items-center">
                 <div className="stat-title">Total Revenue</div>
                 <div className="stat-value">
-                  ${totalCount?.total_revenue[0]?.total}
+                  ${String(totalCount?.total_revenue[0]?.total)}
                 </div>
                 <div className="stat-desc">↘︎ 90 (14%)</div>
               </div>
