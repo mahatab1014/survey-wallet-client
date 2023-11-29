@@ -96,8 +96,8 @@ const DashSurveyList = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="table table-xs">
-          <thead>
+        <table className="table table-xs table-zebra">
+          <thead className="bg-slate-500 text-white">
             <tr>
               <th></th>
               {isAdmin === "admin" && <th>Featured</th>}

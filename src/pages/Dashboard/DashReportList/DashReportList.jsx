@@ -44,8 +44,8 @@ const DashReportList = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="table table-xs">
-            <thead>
+          <table className="table table-xs table-zebra">
+            <thead className="bg-slate-500 text-white">
               <tr>
                 <th></th>
                 <th>Reason</th>

@@ -19,8 +19,8 @@ const DashPaymentTransactions = () => {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="table table-xs">
-            <thead className="bg-base-300 text-gray-900">
+          <table className="table table-xs table-zebra">
+            <thead className="bg-slate-500 text-white">
               <tr>
                 <th></th>
                 <th>Name</th>

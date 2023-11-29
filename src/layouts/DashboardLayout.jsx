@@ -31,7 +31,7 @@ const DashboardLayout = () => {
             <DashboardNav />
           </div>
         </aside>
-        <div className="px-5 md:px-0 md:w-10/12 h-screen overflow-y-scroll">
+        <div className="w-full px-5 md:px-0 md:w-10/12 h-screen overflow-y-scroll">
           <Outlet />
         </div>
       </main>

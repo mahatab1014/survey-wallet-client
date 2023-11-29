@@ -56,7 +56,9 @@ const DashUsersList = () => {
             <form className="text-center" onSubmit={handleFilterByRole}>
               <p className="mb-2">Filter By User Role</p>
               <select name="user_role" className="search-form-field w-full">
-                <option value="" selected>all user</option>
+                <option value="" selected>
+                  all user
+                </option>
                 {role_data.map((role) => (
                   <option
                     key={role?.id}
@@ -78,8 +80,8 @@ const DashUsersList = () => {
               </div>
             </form>
           </div>
-          <table className="table table-xs mt-3">
-            <thead className="bg-base-300">
+          <table className="table table-xs table-zebra">
+            <thead className="bg-slate-500 text-white">
               <tr>
                 <th></th>
                 <th>Name</th>
