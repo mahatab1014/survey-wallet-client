@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Container from "../../Container/Container";
 import moment from "moment";
+import LogoLight from "../../../assets/images/logo/logo_light.png"
 
 const Footer = () => {
   const currentYear = moment().format("YYYY");   
@@ -12,15 +13,11 @@ const Footer = () => {
           <div className="w-full -mx-6 lg:w-2/5">
             <div className="px-6">
               <Link>
-                <img
-                  className="w-auto h-7"
-                  src="https://merakiui.com/images/full-logo.svg"
-                  alt=""
-                />
+                <img className="w-auto h-10" src={LogoLight} alt="" />
               </Link>
 
               <p className="max-w-sm mt-2 text-gray-500 dark:text-gray-400">
-                Join 31,000+ other and never miss out on new tips, tutorials,
+                Join 31,000+ other and never miss out on new survey, tutorials,
                 and more.
               </p>
 

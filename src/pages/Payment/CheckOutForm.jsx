@@ -20,7 +20,7 @@ const CheckOutForm = () => {
   const navigate = useNavigate();
   const totalPrice = 9.99;
 
-  console.log(userRole);
+  // console.log(userRole);
 
   useEffect(() => {
     if (totalPrice > 0) {

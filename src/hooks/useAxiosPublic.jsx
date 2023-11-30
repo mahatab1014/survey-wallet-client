@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosPublic = axios.create({
-  baseURL: "https://survey-wallet-server.vercel.app/api/v1",
+  baseURL: import.meta.env.VITE_BACKEND_API,
 });
 const useAxiosPublic = () => {
   return axiosPublic;
