@@ -1,16 +1,28 @@
 /* eslint-disable react/prop-types */
 
+import { useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 
 import "./SurveyCard.css";
 import { FaComment, FaShare, FaThumbsDown, FaThumbsUp } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import Aos from "aos";
 
 const SurveyCard = ({ card, surveyTotalVote, badge }) => {
   const { user } = useAuth();
-
+  useEffect(() => {
+    Aos.init({
+      offset: 200,
+      duration: 400,
+      easing: "ease-in-sine",
+    });
+  }, []);
   return (
-    <div className="card card-compact shadow-xl" id="survey-card">
+    <div
+      className="card card-compact shadow-xl"
+      id="survey-card"
+      data-aos="fade-up"
+    >
       <div className="card-body mt-3">
         <h2 className="card-title">{card.title}</h2>
         <p>{card.description}</p>

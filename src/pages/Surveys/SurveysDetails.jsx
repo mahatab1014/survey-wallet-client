@@ -22,6 +22,7 @@ import CommentCard from "../../components/Cards/CommentCard";
 import useSingleUserData from "../../hooks/useSingleUserData";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css"; // Import the default styles
+import QRCode from "qrcode";
 
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 
@@ -35,6 +36,7 @@ const SurveysDetails = () => {
   const [singleUserData, singleUserDataRefetch] = useSingleUserData(
     user?.email
   );
+  const [qrCodeData, setQRCodeData] = useState("");
 
   const { likes, dis_likes, options } = singleSurveyData;
 
@@ -178,6 +180,17 @@ const SurveysDetails = () => {
     } else {
       document.getElementById("user_not_found").showModal();
     }
+  };
+
+  const handleShare = () => {
+    QRCode.toDataURL(window.location.href, (err, data) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      setQRCodeData(data);
+    });
+    document.getElementById("survey_share").showModal();
   };
 
   const handleReport = async (e) => {
@@ -345,7 +358,6 @@ const SurveysDetails = () => {
   return (
     <section className="bg-base-200 py-5">
       <PageTitle title={singleSurveyData?.title} />
-
       <Container>
         <Tabs>
           <TabList className="text-center pb-5 space-x-3">
@@ -492,7 +504,7 @@ const SurveysDetails = () => {
                       </div>
                       <div>
                         {/* <span>0 </span> */}
-                        <span className="btn btn-sm">
+                        <span onClick={handleShare} className="btn btn-sm">
                           <FaShare />
                           Share
                         </span>
@@ -733,6 +745,32 @@ const SurveysDetails = () => {
               to continue.
             </p>
 
+            <div className="modal-action">
+              <form method="dialog">
+                {/* if there is a button in form, it will close the modal */}
+                <button className="btn">Close</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+        <dialog
+          id="survey_share"
+          className="modal modal-bottom sm:modal-middle"
+        >
+          <div className="modal-box">
+            <h3 className="font-bold text-lg mb-3">You can share with</h3>
+            <div className="flex justify-center">{qrCodeData && <img src={qrCodeData} alt="QR Code" />}</div>
+            <div className="mockup-code overflow-x-scroll before:hidden">
+              <pre>
+                <code
+                  onClick={() =>
+                    navigator.clipboard.writeText(window.location.href)
+                  }
+                >
+                  {window.location.href}
+                </code>
+              </pre>
+            </div>
             <div className="modal-action">
               <form method="dialog">
                 {/* if there is a button in form, it will close the modal */}

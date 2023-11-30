@@ -4,6 +4,8 @@ import HeroSlider from "./HeroSlider/HeroSlider";
 import SurveyCard from "../../components/Cards/SurveyCard";
 import useSurveysData from "../../hooks/useSurveysData";
 import FaqForHome from "./FaqForHome";
+import { useEffect } from "react";
+import Aos from "aos";
 
 const Home = () => {
   const [surveyData] = useSurveysData();
@@ -18,11 +20,19 @@ const Home = () => {
   );
   const latestSixSurveys = sortedData?.slice(0, 6);
 
+  useEffect(() => {
+    Aos.init({
+      offset: 200,
+      duration: 600,
+      easing: "ease-in-sine",
+    });
+  }, []);
+
   return (
     <>
       <HeroSlider />
 
-      <section>
+      <section data-aos="fade-up">
         <Container>
           <div className="py-16">
             <h2 className="text-2xl md:text-4xl font-semibold text-gray-800 capitalize dark:text-white">
@@ -52,7 +62,10 @@ const Home = () => {
             ></iframe> */}
 
             <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-12 xl:gap-12 md:grid-cols-2">
-              <div className="p-6 border rounded-xl border-r-gray-200 dark:border-gray-700">
+              <div
+                className="p-6 border rounded-xl border-r-gray-200 dark:border-gray-700"
+                data-aos="fade-right"
+              >
                 <div className="md:flex md:items-start md:-mx-4">
                   <span className="inline-block p-2 text-blue-500 bg-blue-100 rounded-xl md:mx-4 dark:text-white dark:bg-blue-500">
                     <svg
@@ -86,7 +99,10 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="p-6 border rounded-xl border-r-gray-200 dark:border-gray-700">
+              <div
+                className="p-6 border rounded-xl border-r-gray-200 dark:border-gray-700"
+                data-aos="fade-left"
+              >
                 <div className="md:flex md:items-start md:-mx-4">
                   <span className="inline-block p-2 text-blue-500 bg-blue-100 rounded-xl md:mx-4 dark:text-white dark:bg-blue-500">
                     <svg
@@ -121,7 +137,10 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="p-6 border rounded-xl border-r-gray-200 dark:border-gray-700">
+              <div
+                className="p-6 border rounded-xl border-r-gray-200 dark:border-gray-700"
+                data-aos="fade-right"
+              >
                 <div className="md:flex md:items-start md:-mx-4">
                   <span className="inline-block p-2 text-blue-500 bg-blue-100 rounded-xl md:mx-4 dark:text-white dark:bg-blue-500">
                     <svg
@@ -163,7 +182,10 @@ const Home = () => {
                 </div>
               </div>
 
-              <div className="p-6 border rounded-xl border-r-gray-200 dark:border-gray-700">
+              <div
+                className="p-6 border rounded-xl border-r-gray-200 dark:border-gray-700"
+                data-aos="fade-left"
+              >
                 <div className="md:flex md:items-start md:-mx-4">
                   <span className="inline-block p-2 text-blue-500 bg-blue-100 rounded-xl md:mx-4 dark:text-white dark:bg-blue-500">
                     <svg
@@ -201,7 +223,7 @@ const Home = () => {
           </div>
         </Container>
       </section>
-      <section>
+      <section data-aos="fade-up">
         <SectionBanner heading="Featured Surveys" />
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10 gap-5">
@@ -222,7 +244,7 @@ const Home = () => {
           </div>
         </Container>
       </section>
-      <section>
+      <section data-aos="fade-up">
         <SectionBanner heading="Latest Surveys" />
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10 gap-5">
@@ -243,13 +265,13 @@ const Home = () => {
         </Container>
       </section>
 
-      <section className="bg-base-200">
+      <section className="bg-base-200" data-aos="fade-up">
         <Container>
           <FaqForHome />
         </Container>
       </section>
 
-      <section>
+      <section data-aos="fade-up">
         <Container>
           <div className="relative flex">
             <div className="min-h-screen lg:w-1/3"></div>
