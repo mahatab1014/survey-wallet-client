@@ -19,7 +19,7 @@ const SurveyTable = ({
   const currentDate = new Date().toISOString().split("T")[0];
   let [isOpen, setIsOpen] = useState(false);
 
-  console.log(isAdmin, "not admin");
+  // console.log(isAdmin, "not admin");
 
   return (
     <tr>

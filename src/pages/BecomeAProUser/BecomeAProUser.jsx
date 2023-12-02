@@ -14,6 +14,8 @@ const BecomeAProUser = () => {
   const [isAdmin] = useAdmin();
   const location = useLocation();
 
+  // console.log(isAdmin);
+
   return (
     <section>
       <Container>

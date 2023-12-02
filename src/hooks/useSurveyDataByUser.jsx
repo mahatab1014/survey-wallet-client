@@ -5,6 +5,9 @@ import useAxiosSecure from "./useAxiosSecure";
 const useSurveyDataByUser = () => {
   const { user, authLoading } = useAuth();
   const axiosSecure = useAxiosSecure();
+  if (!user) {
+    return;
+  }
   const { data: userSurveyData = [], isPending: userSurveyDataLoading } =
     useQuery({
       queryKey: [user?.email, "userSurveyData"],

@@ -53,7 +53,7 @@ const ReportTable = ({ report, index, handleDeleteReport }) => {
         success: <b>Status updated!</b>,
         error: <b>Could not update.</b>,
       });
-      console.log(res.data);
+      // console.log(res.data);
     });
   };
   return (

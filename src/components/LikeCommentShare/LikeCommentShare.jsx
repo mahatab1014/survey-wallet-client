@@ -22,10 +22,9 @@ const LikeCommentShare = ({ singleData }) => {
         uid: user?.uid,
       },
     };
-    console.log(postData);
     axiosSecure
       .post(`/survey-likes-comments/${singleSurveyData?._id}`, postData)
-      .then((res) => console.log(res));
+      .then((res) => {});
     refetch();
   };
   const handleDislikes = async () => {
@@ -39,7 +38,7 @@ const LikeCommentShare = ({ singleData }) => {
         uid: user?.uid,
       },
     };
-    console.log(postData);
+    // console.log(postData);
     refetch();
   };
 

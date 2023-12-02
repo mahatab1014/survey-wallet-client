@@ -66,7 +66,7 @@ const SurveysDetails = () => {
       };
 
       axiosSecure.post(`/survey/${id}`, postData).then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data.message === "Survey updated successfully.") {
           const callFunction = refetch();
           toast.promise(callFunction, {
@@ -98,7 +98,7 @@ const SurveysDetails = () => {
         axiosSecure
           .post(`/survey-likes-comments/${singleSurveyData?._id}`, postData)
           .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             if (res.data.message === "Survey updated successfully.") {
               const callFunction = refetch();
               toast.promise(callFunction, {
@@ -132,7 +132,7 @@ const SurveysDetails = () => {
         axiosSecure
           .post(`/survey-likes-comments/${singleSurveyData?._id}`, postData)
           .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             if (res.data.message === "Survey updated successfully.") {
               const callFunction = refetch();
               toast.promise(callFunction, {

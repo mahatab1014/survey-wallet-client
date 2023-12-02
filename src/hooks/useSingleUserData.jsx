@@ -7,7 +7,7 @@ const useSingleUserData = (email) => {
     useQuery({
       queryKey: ["singleUserData", email],
       queryFn: async () => {
-        const response = await axiosSecure(`/user/${email}`);
+        const response = await axiosSecure.get(`/user/${email}`);
         return response.data;
       },
     });

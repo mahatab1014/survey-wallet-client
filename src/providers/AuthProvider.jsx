@@ -30,6 +30,7 @@ const AuthProvider = ({ children }) => {
   //   Provider
   const google_provider = new GoogleAuthProvider();
 
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       const userEmail = currentUser?.email || user?.email;
@@ -53,7 +54,7 @@ const AuthProvider = ({ children }) => {
         profile_pic: currentUser?.photoURL,
         last_login_ip: ipAddress?.ip,
       };
-      console.log(currentUser);
+      // console.log(currentUser);
       if (currentUser !== null && currentUser?.displayName) {
         axiosSecure.put(`/users/${currentUser?.email}`, userData);
       }

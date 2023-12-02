@@ -6,13 +6,16 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import useUserRole from "../../../hooks/useUserRole";
-import useAdmin from "../../../hooks/useAdmin";
 
 const HeaderTop = () => {
-  const { user } = useAuth();
+  const { user, authLoading } = useAuth();
+
+  if (authLoading) {
+    return <div className="skeleton w-full h-8"></div>;
+  }
+
   const userEmail = user?.email;
   const [userRole, refetchUserRole] = useUserRole(userEmail);
-  // const [isAdmin] = useAdmin();
 
   // console.log(isAdmin);
 

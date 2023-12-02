@@ -79,7 +79,7 @@ const DashSurveyList = () => {
         success: <b>Status updated!</b>,
         error: <b>Could not update.</b>,
       });
-      console.log(res.data);
+      // console.log(res.data);
     });
   };
 

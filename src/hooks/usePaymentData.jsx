@@ -8,6 +8,11 @@ const usePaymentData = () => {
   const [isAdmin] = useAdmin();
 
   const axiosSecure = useAxiosSecure();
+
+  if (!user) {
+    return;
+  }
+
   const { data: paymentData = [], isPending: paymentDataLoading } = useQuery({
     queryKey: [user?.email, "paymentData", isAdmin],
     enabled: !authLoading,

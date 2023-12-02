@@ -7,7 +7,12 @@ import LogoDark from "../../../assets/images/logo/logo_dark.png";
 import useAuth from "../../../hooks/useAuth";
 
 const HeaderMenu = () => {
-  const { user } = useAuth();
+  const { user, authLoading } = useAuth();
+
+  // if (authLoading) {
+  //   return;
+  // }
+
   const activeButton = `!bg-transparent !border-b-2 hover:!border-b-2 !border-white active:scale-95 font-bold uppercase`;
   const inActiveButton = `!bg-transparent !border-b-2 !border-transparent hover:!border-b-2 hover:!border-white hover:!text-white active:scale-95 font-medium uppercase`;
   const menuLinks = (
@@ -134,25 +139,28 @@ const HeaderMenu = () => {
                 </ul>
               </div>
               <div className="navbar-end">
-                <div className="space-x-2 md:hidden">
-                  {user?.email ? (
-                    <>
-                      <Link to="/dashboard">
-                        <button className="btn btn-sm border-none bg-gray-950 hover:bg-stone-950 text-white">
-                          Dashboard
-                        </button>
-                      </Link>
-                    </>
-                  ) : (
-                    <>
-                      <Link to="/auth">
-                        <button className="btn btn-sm border-none bg-gray-950 hover:bg-stone-950 text-white">
-                          Login
-                        </button>
-                      </Link>
-                    </>
-                  )}
-                </div>
+                {!authLoading && (
+                  <div className="space-x-2 md:hidden">
+                    {user?.email ? (
+                      <>
+                        <Link to="/dashboard">
+                          <button className="btn btn-sm border-none bg-gray-950 hover:bg-stone-950 text-white">
+                            Dashboard
+                          </button>
+                        </Link>
+                      </>
+                    ) : (
+                      <>
+                        <Link to="/auth">
+                          <button className="btn btn-sm border-none bg-gray-950 hover:bg-stone-950 text-white">
+                            Login
+                          </button>
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                )}
+
                 <div className="space-x-2 hidden md:block">
                   <button className="btn btn-square border-none bg-gray-950 hover:bg-stone-950 text-white">
                     <AiOutlineSearch className="text-2xl" />

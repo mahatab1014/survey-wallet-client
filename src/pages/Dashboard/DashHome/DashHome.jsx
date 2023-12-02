@@ -6,11 +6,10 @@ import useTotalCount from "../../../hooks/useTotalCount";
 import moment from "moment";
 
 const DashHome = () => {
-  const [totalCount, totalCountLoading] = useTotalCount();
   const [isAdmin, isAdminLoading] = useAdmin();
+  const [totalCount, totalCountLoading] = useTotalCount();
   const [paymentData, paymentDataLoading] = usePaymentData();
-
-  if (isAdminLoading || totalCountLoading) {
+  if (isAdminLoading || totalCountLoading || paymentDataLoading) {
     return <SpinnerLoader />;
   }
 
@@ -73,7 +72,10 @@ const DashHome = () => {
                         ? "No Money"
                         : totalCount?.total_revenue[0]?.total}
                     </div>
-                    <div className="stat-desc tooltip tooltip-warning" data-tip="Last 7 days data">
+                    <div
+                      className="stat-desc tooltip tooltip-warning"
+                      data-tip="Last 7 days data"
+                    >
                       {revenuePercentage.includes("-") ? "↘︎" : "↗︎"} (
                       {revenuePercentage}) %
                     </div>
@@ -92,8 +94,8 @@ const DashHome = () => {
           <div className="mt-5 md:mt-0 md:p-5">
             <div className="mockup-window border bg-base-300">
               <div className="flex flex-col items-center px-4 py-16 bg-base-200">
-                <h2 className="text-3xl">Sorry To Say</h2>
-                <p className="text-lg mb-5">Here is your dashboard</p>
+                <h2 className="text-3xl">We created dashboard for only admin</h2>
+                <p className="text-lg mb-5">Please wait for next update</p>
                 <div className="diff aspect-[16/4]">
                   <div className="diff-item-1">
                     <div className="bg-primary text-primary-content text-3xl md:text-7xl font-black grid place-content-center">

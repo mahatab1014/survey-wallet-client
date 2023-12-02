@@ -121,7 +121,7 @@ const DashSurveyCreate = () => {
       return setErrorMessage("Please select a valid date");
     }
 
-    console.log(date, currentDate);
+    // console.log(date, currentDate);
   };
 
   return (

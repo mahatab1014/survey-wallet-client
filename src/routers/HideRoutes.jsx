@@ -47,9 +47,9 @@ export const HideAuthRoutes = ({ children }) => {
   const { user, authLoading } = useAuth();
   const location = useLocation();
 
-  if (authLoading) {
-    return <ReactPreloader />;
-  }
+  // if (user) {
+  //   return <ReactPreloader />;
+  // }
 
   if (user) {
     return <Navigate to="/dashboard" replace></Navigate>;

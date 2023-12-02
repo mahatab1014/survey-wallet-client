@@ -6,7 +6,7 @@ import { useState } from "react";
 const DashAnalytics = () => {
   const { id } = useParams();
   const [singleSurveyData, refetch, isLoading] = useSingleData(id);
-  console.log(singleSurveyData);
+  // console.log(singleSurveyData);
   const { likes, dis_likes, options } = singleSurveyData;
   const [activeIndex, setActiveIndex] = useState(0);
   let userLikedData = [];

@@ -11,7 +11,7 @@ const UsersTable = ({ user, index, handleUserRole }) => {
 
   const [selectedRole, setSelectedRole] = useState(role_data[0]);
   let [isOpen, setIsOpen] = useState(false);
-  console.log(selectedRole);
+  // console.log(selectedRole);
   return (
     <tr>
       <th>{index}</th>
